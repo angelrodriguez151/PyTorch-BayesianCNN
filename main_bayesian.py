@@ -41,12 +41,13 @@ def train_model(net, optimizer, criterion, trainloader, num_ens=1, beta_type=0.1
 
         inputs, labels = inputs.to(device), labels.to(device)
         outputs = torch.zeros(inputs.shape[0], net.num_classes, num_ens).to(device)
-        print(num_ens)
         kl = 0.0
         for j in range(num_ens):
-            print(j)
             net_out, _kl = net(inputs)
             kl += _kl
+            print(net_out.shape)
+            print( F.log_softmax(net_out, dim=1).shape)
+            print(inputs.shape[0])
             outputs[:, :, j] = F.log_softmax(net_out, dim=1)
         
         kl = kl / num_ens
