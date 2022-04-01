@@ -57,8 +57,10 @@ def getDataset(dataset):
 
         ])
     if(dataset == 'miset'):
-        trainset == ImageFolder('../chest_xray/train/', transform = transform_midataset)
-	testset== ImageFolder('../chest_xray/test/', transform = transform_midataset)
+	from google.colab import drive
+	drive.mount('/content/drive')
+        trainset == ImageFolder('/content/drive/MyDrive/CNN/chest_xray/train/', transform = transform_midataset)
+	testset== ImageFolder('/content/drive/MyDrive/CNN/chest_xray/test/', transform = transform_midataset)
 	num_classes = 2
 	inputs = 1
     elif(dataset == 'CIFAR10'):
