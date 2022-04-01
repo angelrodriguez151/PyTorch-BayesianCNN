@@ -50,8 +50,18 @@ def getDataset(dataset):
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
         ])
+    transform_midataset = transforms.Compose([
+        transforms.Resize((64, 64)),
+        transforms.ToTensor(),
+        transforms.Grayscale(),
 
-    if(dataset == 'CIFAR10'):
+        ])
+    if(dataset == 'miset'):
+        trainset == ImageFolder('../chest_xray/train/', transform = transform_midataset)
+	testset== ImageFolder('../chest_xray/test/', transform = transform_midataset)
+	num_classes = 2
+	inputs = 1
+    elif(dataset == 'CIFAR10'):
         trainset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform_cifar)
         testset = torchvision.datasets.CIFAR10(root='./data', train=False, download=True, transform=transform_cifar)
         num_classes = 10
