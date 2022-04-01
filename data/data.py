@@ -57,12 +57,13 @@ def getDataset(dataset):
 
         ])
     if(dataset == 'miset'):
-    	from google.colab import drive
-    	drive.mount('/content/drive')
-        trainset == ImageFolder('/content/drive/MyDrive/CNN/chest_xray/train/', transform = transform_midataset)
-    	testset== ImageFolder('/content/drive/MyDrive/CNN/chest_xray/test/', transform = transform_midataset)
-    	num_classes = 2
-    	inputs = 1
+        from google.colab import drive
+        from torchvision.datasets import ImageFolders
+        drive.mount('/content/drive')
+        trainset = ImageFolder('/content/drive/MyDrive/CNN/chest_xray/train/', transform = transform_midataset)
+        testset = ImageFolder('/content/drive/MyDrive/CNN/chest_xray/test/', transform = transform_midataset)
+        num_classes = 2
+        inputs = 1
     elif(dataset == 'CIFAR10'):
         trainset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform_cifar)
         testset = torchvision.datasets.CIFAR10(root='./data', train=False, download=True, transform=transform_cifar)
