@@ -60,7 +60,7 @@ def getDataset(dataset):
         from torchvision.datasets import ImageFolder
         trainset = ImageFolder('/kaggle/input/chest-xray-pneumonia/chest_xray/train/', transform = transform_midataset)
         testset = ImageFolder('/kaggle/input/chest-xray-pneumonia/chest_xray/test/', transform = transform_midataset)
-        num_classes = 2
+        num_classes = 1
         inputs = 1
     elif(dataset == 'CIFAR10'):
         trainset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform_cifar)
