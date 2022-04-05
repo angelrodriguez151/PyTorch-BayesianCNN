@@ -84,6 +84,8 @@ def run(dataset, net_type):
     optimizer = Adam(net.parameters(), lr=lr)
     lr_sched = lr_scheduler.ReduceLROnPlateau(optimizer, patience=6, verbose=True)
     valid_loss_min = np.Inf
+    trainaccuracy = []
+    valaccuracy  = []
     for epoch in range(1, n_epochs+1):
 
         train_loss, train_acc = train_model(net, optimizer, criterion, train_loader)
@@ -92,7 +94,8 @@ def run(dataset, net_type):
 
         train_loss = train_loss/len(train_loader.dataset)
         valid_loss = valid_loss/len(valid_loader.dataset)
-            
+        trainaccuracy.append(train_acc)
+        valaccuracy.append(valid_acc)
         print('Epoch: {} \tTraining Loss: {:.4f} \tTraining Accuracy: {:.4f} \tValidation Loss: {:.4f} \tValidation Accuracy: {:.4f}'.format(
             epoch, train_loss, train_acc, valid_loss, valid_acc))
         
@@ -102,7 +105,7 @@ def run(dataset, net_type):
                 valid_loss_min, valid_loss))
             torch.save(net.state_dict(), ckpt_name)
             valid_loss_min = valid_loss
-
+    return trainaccuracy, valaccuracy
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description = "PyTorch Frequentist Model Training")
