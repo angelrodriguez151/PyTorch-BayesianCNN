@@ -28,7 +28,7 @@ class ThreeConvThreeFC(nn.Module):
             nn.MaxPool2d(kernel_size=3, stride=2),
         )
         self.classifier = nn.Sequential(
-            FlattenLayer(2 * 2 * 128),
+            FlattenLayer(8 * 8 * 128),
             nn.Linear(8 * 8 * 128, 1000),
             nn.Softplus(),
             nn.Linear(1000, 1000),
