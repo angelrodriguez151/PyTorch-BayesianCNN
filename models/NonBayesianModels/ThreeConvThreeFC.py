@@ -20,12 +20,15 @@ class ThreeConvThreeFC(nn.Module):
             nn.Conv2d(inputs, 32, 5, stride=1, padding=2),
             nn.Softplus(),
             nn.MaxPool2d(kernel_size=6, stride=2),
+            nn.Dropout(),
             nn.Conv2d(32, 64, 5, stride=1, padding=2),
             nn.Softplus(),
             nn.MaxPool2d(kernel_size=6, stride=2),
+            nn.Dropout(),
             nn.Conv2d(64, 128, 5, stride=1, padding=1),
             nn.Softplus(),
-            nn.MaxPool2d(kernel_size=6, stride=2), 
+            nn.MaxPool2d(kernel_size=6, stride=2),
+            nn.Dropout(),
             nn.Conv2d(128   , 128, 5, stride=1, padding=1),
             nn.Softplus(),
             nn.MaxPool2d(kernel_size=6, stride=2),
@@ -34,8 +37,10 @@ class ThreeConvThreeFC(nn.Module):
             nn.Flatten(1,3),
             nn.Linear(2 * 2 * 128, 1000),
             nn.Softplus(),
+            nn.Dropout(),
             nn.Linear(1000, 1000),
             nn.Softplus(),
+            nn.Dropout(),
             nn.Linear(1000, outputs)
         )
 
