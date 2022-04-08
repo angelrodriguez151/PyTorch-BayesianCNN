@@ -19,13 +19,13 @@ class ThreeConvThreeFC(nn.Module):
         self.features = nn.Sequential(
             nn.Conv2d(inputs, 32, 5, stride=1, padding=2),
             nn.Softplus(),
-            nn.MaxPool2d(kernel_size=6, stride=2),
+            nn.MaxPool2d(kernel_size=8, stride=2),
             nn.Conv2d(32, 64, 5, stride=1, padding=2),
             nn.Softplus(),
-            nn.MaxPool2d(kernel_size=6, stride=2),
+            nn.MaxPool2d(kernel_size=8, stride=2),
             nn.Conv2d(64, 128, 5, stride=1, padding=1),
             nn.Softplus(),
-            nn.MaxPool2d(kernel_size=6, stride=2),
+            nn.MaxPool2d(kernel_size=8, stride=2),
         )
         self.classifier = nn.Sequential(
             nn.Flatten(1,3),
