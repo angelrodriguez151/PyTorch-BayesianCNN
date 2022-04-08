@@ -46,7 +46,7 @@ class BBB3Conv3FC(ModuleWrapper):
         self.pool3 = nn.MaxPool2d(kernel_size=3, stride=2)
 
         self.flatten = FlattenLayer(2 * 2 * 128)
-        self.fc1 = BBBLinear(2 * 2 * 128, 1000, bias=True, priors=self.priors)
+        self.fc1 = BBBLinear(8 * 8 * 128, 1000, bias=True, priors=self.priors)
         self.act4 = self.act()
 
         self.fc2 = BBBLinear(1000, 1000, bias=True, priors=self.priors)
