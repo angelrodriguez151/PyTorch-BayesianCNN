@@ -58,7 +58,7 @@ def getDataset(dataset):
         ])
     if(dataset == 'miset'):
         from torchvision.datasets import ImageFolder
-        trainset = ImageFolder('/content/drive/MyDrive/CNN/chest-xray-pneumonia/chest_xray/train/', transform = transform_midataset)
+        trainset = ImageFolder('/content/drive/MyDrive/CNN/chest_xray/train/', transform = transform_midataset)
         testset = ImageFolder('/content/drive/MyDrive/CNN/chest_xray/test/', transform = transform_midataset)
         num_classes = 2
         inputs = 1
