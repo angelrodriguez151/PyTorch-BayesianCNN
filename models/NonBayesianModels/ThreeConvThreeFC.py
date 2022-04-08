@@ -29,7 +29,7 @@ class ThreeConvThreeFC(nn.Module):
         )
         self.classifier = nn.Sequential(
             nn.Flatten(1,3),
-            nn.Linear(8 * 8 * 128, 1000),
+            nn.Linear(14 * 14 * 128, 1000),
             nn.Softplus(),
             nn.Linear(1000, 1000),
             nn.Softplus(),
