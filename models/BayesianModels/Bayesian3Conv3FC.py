@@ -35,21 +35,25 @@ class BBB3Conv3FC(ModuleWrapper):
 
         self.conv1 = BBBConv2d(inputs, 32, 5, padding=2, bias=True, priors=self.priors)
         self.act1 = self.act()
-        self.pool1 = nn.MaxPool2d(kernel_size=3, stride=2)
+        self.pool1 = nn.MaxPool2d(kernel_size=6, stride=2)
 
         self.conv2 = BBBConv2d(32, 64, 5, padding=2, bias=True, priors=self.priors)
         self.act2 = self.act()
-        self.pool2 = nn.MaxPool2d(kernel_size=3, stride=2)
+        self.pool2 = nn.MaxPool2d(kernel_size=6, stride=2)
 
         self.conv3 = BBBConv2d(64, 128, 5, padding=1, bias=True, priors=self.priors)
         self.act3 = self.act()
-        self.pool3 = nn.MaxPool2d(kernel_size=3, stride=2)
+        self.pool3 = nn.MaxPool2d(kernel_size=6, stride=2)
 
-        self.flatten = FlattenLayer(8* 8 * 128)
-        self.fc1 = BBBLinear(8 * 8 * 128, 1000, bias=True, priors=self.priors)
+        self.conv4 = BBBConv2d(128, 128, 5, padding=1, bias=True, priors=self.priors)
         self.act4 = self.act()
+        self.pool4 = nn.MaxPool2d(kernel_size=6, stride=2)
+
+        self.flatten = nn.Flatten(1,3)
+        self.fc1 = BBBLinear(2 * 2 * 128, 1000, bias=True, priors=self.priors)
+        self.act5 = self.act()
 
         self.fc2 = BBBLinear(1000, 1000, bias=True, priors=self.priors)
-        self.act5 = self.act()
+        self.act6 = self.act()
 
         self.fc3 = BBBLinear(1000, outputs, bias=True, priors=self.priors)
