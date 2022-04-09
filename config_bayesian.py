@@ -3,7 +3,7 @@ layer_type = 'lrt' # 'bbb' or 'lrt'
 activation_type = 'softplus'  # 'softplus' or 'relu'
 priors={
     'prior_mu': 0,
-    'prior_sigma': 0.02
+    'prior_sigma': 0.02,
     'posterior_mu_initial': (0, 0.1),  # (mean, std) normal_
     'posterior_rho_initial': (-5, 0.1),  # (mean, std) normal_
 }
