@@ -45,15 +45,20 @@ class BBB3Conv3FC(ModuleWrapper):
         self.act3 = self.act()
         self.pool3 = nn.MaxPool2d(kernel_size=6, stride=2)
 
-        self.conv4 = BBBConv2d(128, 128, 5, padding=1, bias=True, priors=self.priors)
+        self.conv4 = BBBConv2d(128, 256, 5, padding=1, bias=True, priors=self.priors)
         self.act4 = self.act()
         self.pool4 = nn.MaxPool2d(kernel_size=6, stride=2)
+        
+        self.conv5 = BBBConv2d(256, 256, 5, padding=1, bias=True, priors=self.priors)
+        self.act5 = self.act()
+        self.pool5 = nn.MaxPool2d(kernel_size=6, stride=2)
 
         self.flatten = nn.Flatten(1,3)
-        self.fc1 = BBBLinear(2 * 2 * 128, 1000, bias=True, priors=self.priors)
-        self.act5 = self.act()
+        
+        self.fc1 = BBBLinear(2 * 2 * 256, 1000, bias=True, priors=self.priors)
+        self.act6 = self.act()
 
         self.fc2 = BBBLinear(1000, 1000, bias=True, priors=self.priors)
-        self.act6 = self.act()
+        self.act7 = self.act()
 
         self.fc3 = BBBLinear(1000, outputs, bias=True, priors=self.priors)
