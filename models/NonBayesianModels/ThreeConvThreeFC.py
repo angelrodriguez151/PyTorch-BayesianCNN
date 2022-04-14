@@ -44,11 +44,16 @@ class ThreeConvThreeFC(nn.Module):
             nn.Linear(1000, 1000),
             nn.Softplus(),
             nn.Dropout(),
-            nn.Linear(1000, outputs)
+            nn.Linear(1000, 1000),
+            nn.Softplus(),
+            nn.Dropout(),
+            nn.Linear(1000, 1000),
+            nn.Softplus(),
+            nn.Dropout(),
+            nn.Linear(1000, outputs),
         )
 
     def forward(self, x):
         x = self.features(x)
-        print(x.shape)
         x = self.classifier(x)
         return x
