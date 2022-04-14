@@ -53,6 +53,7 @@ def getDataset(dataset):
     transform_midataset = transforms.Compose([
         transforms.Resize((256, 256)),
         transforms.ToTensor(),
+        transforms.Grayscale(),
         ])
     if(dataset == 'miset'):
         from torchvision.datasets import ImageFolder
