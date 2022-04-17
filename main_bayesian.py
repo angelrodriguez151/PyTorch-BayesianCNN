@@ -7,7 +7,6 @@ import torch
 import numpy as np
 from torch.optim import Adam, lr_scheduler
 from torch.nn import functional as F
-from sklearn.metrics import confusion_matrix
 
 import data
 import utils
@@ -80,10 +79,9 @@ def validate_model(net, criterion, validloader, num_ens=1, beta_type=0.1, epoch=
         beta = metrics.get_beta(i-1, len(validloader), beta_type, epoch, num_epochs)
         valid_loss += criterion(log_outputs, labels, kl, beta).item()
         accs.append(metrics.acc(log_outputs, labels))
-        cm = confusion_matrix(y_pred =  ( net_out[:,0]>0.92).to(torch.device('cpu')).detach().numpy().astype('float32'), y_true = labels.to(torch.device('cpu')).detach().numpy())
 
 
-    return valid_loss/len(validloader), np.mean(accs), cm
+    return valid_loss/len(validloader), np.mean(accs)
 
 
 def run(dataset, net_type):
@@ -122,7 +120,7 @@ def run(dataset, net_type):
     for epoch in range(n_epochs):  # loop over the dataset multiple times
 
         train_loss, train_acc, train_kl = train_model(net, optimizer, criterion, train_loader, num_ens=train_ens, beta_type=beta_type, epoch=epoch, num_epochs=n_epochs)
-        valid_loss, valid_acc, cm = validate_model(net, criterion, valid_loader, num_ens=valid_ens, beta_type=beta_type, epoch=epoch, num_epochs=n_epochs)
+        valid_loss, valid_acc = validate_model(net, criterion, valid_loader, num_ens=valid_ens, beta_type=beta_type, epoch=epoch, num_epochs=n_epochs)
         lr_sched.step(valid_loss)
         trainaccuracy.append(train_acc)
         valaccuracy.append(valid_acc)
@@ -133,7 +131,6 @@ def run(dataset, net_type):
         if valid_loss <= valid_loss_max:
             print('Validation loss decreased ({:.6f} --> {:.6f}).  Saving model ...'.format(
                 valid_loss_max, valid_loss))
-            print(cm)
             torch.save(net.state_dict(), ckpt_name)
             valid_loss_max = valid_loss
     return trainaccuracy, valaccuracy 
