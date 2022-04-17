@@ -22,21 +22,21 @@ class ThreeConvThreeFC(nn.Module):
             nn.Dropout(),
             nn.Conv2d(32, 32, 3, stride=1, padding=2),
             nn.Softplus(),
-            nn.MaxPool2d(kernel_size=2, stride=2),
+            nn.MaxPool2d(kernel_size=6, stride=2),
             nn.Dropout(),
             nn.Conv2d(32, 64, 3, stride=1, padding=2),
             nn.Softplus(),
             nn.Dropout(),
             nn.Conv2d(64, 64, 3, stride=1, padding=2),
             nn.Softplus(),
-            nn.MaxPool2d(kernel_size=3, stride=2),
+            nn.MaxPool2d(kernel_size=6, stride=2),
             nn.Dropout(),
             nn.Conv2d(64, 128, 3, stride=1, padding=1),
             nn.Softplus(),
             nn.Dropout(),
             nn.Conv2d(128, 128, 3, stride=1, padding=1),
             nn.Softplus(),
-            nn.MaxPool2d(kernel_size=6, stride=2),
+            nn.MaxPool2d(kernel_size=6  , stride=2),
             nn.Dropout(),
             nn.Conv2d(128, 256, 3, stride=1, padding=1),
             nn.Softplus(),
@@ -58,11 +58,14 @@ class ThreeConvThreeFC(nn.Module):
             nn.Linear(256, 128),
             nn.Softplus(),
             nn.Dropout(),
-            nn.Linear(128, outputs),
+            nn.Linear(128, 64),
+            nn.Softplus(),
+            nn.Dropout(),
+            nn.Linear(64, outputs),
+    
         )
 
     def forward(self, x):
         x = self.features(x)
-        print(x.shape)
         x = self.classifier(x)
         return x
