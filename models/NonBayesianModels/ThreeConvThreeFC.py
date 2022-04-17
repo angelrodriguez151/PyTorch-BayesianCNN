@@ -18,59 +18,19 @@ class ThreeConvThreeFC(nn.Module):
         super(ThreeConvThreeFC, self).__init__()
         self.features = nn.Sequential(
             
-            nn.Conv2d(inputs, 32, 5, stride=1, padding=2),
+            nn.Conv2d(inputs, 8, 3),
             nn.Softplus(),
+            nn.MaxPool2d(6,6),
             nn.Dropout(),
             
-            nn.Conv2d(32, 32, 5, stride=1, padding=2),
-            nn.Softplus(),
-            nn.MaxPool2d(kernel_size=6, stride=2),
-            nn.Dropout(),
             
-            nn.Conv2d(32, 64, 5, stride=1, padding=2),
-            nn.Softplus(),
-            nn.Dropout(),
-            
-            nn.Conv2d(64, 64, 5, stride=1, padding=2),
-            nn.Softplus(),
-            nn.MaxPool2d(kernel_size=6, stride=2),
-            nn.Dropout(),
-            
-            nn.Conv2d(64, 128, 5, stride=1, padding=1),
-            nn.Softplus(),
-            nn.Dropout(),
-            
-            nn.Conv2d(128, 128, 5, stride=1, padding=1),
-            nn.Softplus(),
-            nn.MaxPool2d(kernel_size=6  , stride=2),
-            nn.Dropout(),
-            
-            nn.Conv2d(128, 256, 5, stride=1, padding=1),
-            nn.Softplus(),
-            nn.MaxPool2d(kernel_size=6, stride=2),
-            
-            nn.Conv2d(256, 256, 5, stride=1, padding=1),
-            nn.Softplus(),
-            nn.MaxPool2d(kernel_size=6, stride=2),
         )
         self.classifier = nn.Sequential(
-            nn.Flatten(1,3),
-            nn.Linear(2 * 2 * 256, 1024),
+            nn.Flatten(1),
+            nn.Linear(800, 128),
             nn.Softplus(),
             nn.Dropout(),
-            nn.Linear(1024, 512),
-            nn.Softplus(),
-            nn.Dropout(),
-            nn.Linear(512, 256),
-            nn.Softplus(),
-            nn.Dropout(),
-            nn.Linear(256, 128),
-            nn.Softplus(),
-            nn.Dropout(),
-            nn.Linear(128, 64),
-            nn.Softplus(),
-            nn.Dropout(),
-            nn.Linear(64, outputs),
+            nn.Linear(128, outputs),
     
         )
 
