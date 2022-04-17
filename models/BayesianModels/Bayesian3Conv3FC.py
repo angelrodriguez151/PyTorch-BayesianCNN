@@ -39,6 +39,6 @@ class BBB3Conv3FC(ModuleWrapper):
     
         self.flatten = nn.Flatten(1)
         
-        self.fc1 = BBBLinear(10 * 10 * 8, 16, bias=True, priors=self.priors)
+        self.fc1 = BBBLinear(10 * 10 * 8, 128, bias=True, priors=self.priors)
         self.act3 = self.act()
-        self.fc2 = BBBLinear(16, outputs, bias=True, priors=self.priors)
+        self.fc2 = BBBLinear(128, outputs, bias=True, priors=self.priors)
