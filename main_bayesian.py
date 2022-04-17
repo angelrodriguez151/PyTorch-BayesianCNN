@@ -69,14 +69,14 @@ def validate_model(net, criterion, validloader, num_ens=1, beta_type=0.1, epoch=
     accs = []
     for i, (inputs, labels) in enumerate(validloader):
         inputs, labels = inputs.to(device), labels.to(device)
-        outputs = torch.zeros(inputs.shape[0], net.num_classes, num_ens).to(device)
+        outputs = torch.zeros(inputs.shape[0], num_ens).to(device)
         kl = 0.0
         for j in range(num_ens):
             net_out, _kl = net(inputs)
             kl += _kl
-            outputs[:, :, j] = F.log_softmax(net_out, dim=1).data
+            outputs[:, j] = F.sigmoid(net_out)
 
-        log_outputs = utils.logmeanexp(outputs, dim=2)
+        log_outputs = utils.logmeanexp(outputs, dim=1)
         beta = metrics.get_beta(i-1, len(validloader), beta_type, epoch, num_epochs)
         valid_loss += criterion(log_outputs, labels, kl, beta).item()
         accs.append(metrics.acc(log_outputs, labels))
