@@ -51,7 +51,7 @@ def getDataset(dataset):
         transforms.ToTensor(),
         ])
     transform_midataset = transforms.Compose([
-        transforms.Resize((256, 256)),
+        transforms.Resize((32, 32)),
         transforms.ToTensor(),
         transforms.Grayscale(),
         ])
