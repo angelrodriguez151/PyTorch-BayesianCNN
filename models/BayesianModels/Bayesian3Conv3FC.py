@@ -41,4 +41,4 @@ class BBB3Conv3FC(ModuleWrapper):
         
         self.fc1 = BBBLinear(10 * 10 * 8, 16, bias=True, priors=self.priors)
         self.act3 = self.act()
-        self.fc2 = BBBLinear(16, 1, bias=True, priors=self.priors)
+        self.fc2 = BBBLinear(16, outputs, bias=True, priors=self.priors)
