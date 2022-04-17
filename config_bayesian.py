@@ -3,12 +3,12 @@ layer_type = 'lrt' # 'bbb' or 'lrt'
 activation_type = 'softplus'  # 'softplus' or 'relu'
 priors={
     'prior_mu': 0,
-    'prior_sigma': 0.3,
-    'posterior_mu_initial': (0, 0.3),  # (mean, std) normal_
-    'posterior_rho_initial': (-5, 0.3),  # (mean, std) normal_
+    'prior_sigma': 0.4,
+    'posterior_mu_initial': (0, 0.4),  # (mean, std) normal_
+    'posterior_rho_initial': (-5, 0.4),  # (mean, std) normal_
 }
 
-n_epochs = 25
+n_epochs = 50
 lr_start = 0.001
 num_workers = 2
 valid_size = 0.2
