@@ -33,11 +33,12 @@ class BBB3Conv3FC(ModuleWrapper):
         else:
             raise ValueError("Only softplus or relu supported")
 
-        self.conv1 = BBBConv2d(inputs, 8, 3, padding=1, bias=True, priors=self.priors)
+        self.conv1 = BBBConv2d(inputs, 8, 3, bias=True, priors=self.priors)
         self.act1 = self.act()
-        self.pool1 = nn.MaxPool2d(kernel_size=6, stride=1)
+        self.pool1 = nn.MaxPool2d(6,6)
     
-        self.flatten = nn.Flatten(1,3)
+        self.flatten = nn.Flatten(1)
         
-        self.fc1 = BBBLinear(10* 10 * 8, 1, bias=True, priors=self.priors)
-        self.act9 = self.act()
+        self.fc1 = BBBLinear(10 * 10 * 8, 16, bias=True, priors=self.priors)
+        self.act3 = self.act()
+        self.fc2 = BBBLinear(16, 1, bias=True, priors=self.priors)
