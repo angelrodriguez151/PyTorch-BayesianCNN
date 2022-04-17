@@ -41,16 +41,16 @@ def train_model(net, optimizer, criterion, trainloader, num_ens=1, beta_type=0.1
         optimizer.zero_grad()
 
         inputs, labels = inputs.to(device), labels.to(device)
-        outputs = torch.zeros(inputs.shape[0], num_ens).to(device)
+        outputs = torch.zeros(inputs.shape[0], net.num_classes, num_ens).to(device)
         kl = 0.0
         for j in range(num_ens):
             net_out, _kl = net(inputs)
             kl += _kl
-            outputs[:, j] = F.sigmoid(net_out)
+            outputs[:, :, j] = F.log_softmax(net_out, dim=1)
         
         kl = kl / num_ens
         kl_list.append(kl.item())
-        log_outputs = utils.logmeanexp(outputs, dim=1)
+        log_outputs = utils.logmeanexp(outputs, dim=2)
 
         beta = metrics.get_beta(i-1, len(trainloader), beta_type, epoch, num_epochs)
         loss = criterion(log_outputs, labels, kl, beta)
@@ -69,18 +69,18 @@ def validate_model(net, criterion, validloader, num_ens=1, beta_type=0.1, epoch=
     accs = []
     for i, (inputs, labels) in enumerate(validloader):
         inputs, labels = inputs.to(device), labels.to(device)
-        outputs = torch.zeros(inputs.shape[0], num_ens).to(device)
+        outputs = torch.zeros(inputs.shape[0], net.num_classes, num_ens).to(device)
         kl = 0.0
         for j in range(num_ens):
             net_out, _kl = net(inputs)
             kl += _kl
-            outputs[:, j] = F.sigmoid(net_out)
+            outputs[:, :, j] = F.log_softmax(net_out, dim=1).data
 
-        log_outputs = utils.logmeanexp(outputs, dim=1)
+        log_outputs = utils.logmeanexp(outputs, dim=2)
         beta = metrics.get_beta(i-1, len(validloader), beta_type, epoch, num_epochs)
         valid_loss += criterion(log_outputs, labels, kl, beta).item()
         accs.append(metrics.acc(log_outputs, labels))
-        cm = confusion_matrix(y_pred= ( net_out[:,0]>0.92).to(torch.device('cpu')).detach().numpy().astype('float32'), y_true = labels.to(torch.device('cpu')).detach().numpy())
+        cm = confusion_matrix(y_pred =  ( net_out[:,0]>0.92).to(torch.device('cpu')).detach().numpy().astype('float32'), y_true = labels.to(torch.device('cpu')).detach().numpy())
 
 
     return valid_loss/len(validloader), np.mean(accs), cm
