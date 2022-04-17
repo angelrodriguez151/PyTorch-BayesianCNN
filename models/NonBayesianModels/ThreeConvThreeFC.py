@@ -17,14 +17,14 @@ class ThreeConvThreeFC(nn.Module):
     def __init__(self, outputs, inputs):
         super(ThreeConvThreeFC, self).__init__()
         self.features = nn.Sequential(
-            nn.Conv2d(inputs, 32, 3, stride=1, padding=2),
+            nn.Conv2d(inputs, 32, 5, stride=1, padding=2),
             nn.Softplus(),
             nn.Dropout(),
-            nn.Conv2d(32, 32, 3, stride=1, padding=2),
+            nn.Conv2d(32, 32, 5, stride=1, padding=2),
             nn.Softplus(),
             nn.MaxPool2d(kernel_size=6, stride=2),
             nn.Dropout(),
-            nn.Conv2d(32, 64, 3, stride=1, padding=2),
+            nn.Conv2d(32, 64, 5, stride=1, padding=2),
             nn.Softplus(),
             nn.Dropout(),
             nn.Conv2d(64, 64, 3, stride=1, padding=2),
@@ -67,5 +67,6 @@ class ThreeConvThreeFC(nn.Module):
 
     def forward(self, x):
         x = self.features(x)
+        print(x.shape)
         x = self.classifier(x)
         return x
