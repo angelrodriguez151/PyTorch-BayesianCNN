@@ -77,10 +77,11 @@ def validate_model(net, criterion, validloader, num_ens=1, beta_type=0.1, epoch=
             outputs[:, :, j] = F.log_softmax(net_out, dim=1).data
 
         log_outputs = utils.logmeanexp(outputs, dim=2)
-        cm = confusion_matrix(y_pred = net_out[0].to(torch.device('cpu')).numpy().astype('float32'), y_true = labels.to(torch.device('cpu')).numpy())
         beta = metrics.get_beta(i-1, len(validloader), beta_type, epoch, num_epochs)
         valid_loss += criterion(log_outputs, labels, kl, beta).item()
         accs.append(metrics.acc(log_outputs, labels))
+        cm = confusion_matrix(y_pred = net_out[0].to(torch.device('cpu')).detach().numpy().astype('float32'), y_true = labels.to(torch.device('cpu')).detach().numpy())
+
 
     return valid_loss/len(validloader), np.mean(accs), cm
 
