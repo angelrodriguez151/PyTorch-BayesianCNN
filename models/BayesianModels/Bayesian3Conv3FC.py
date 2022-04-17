@@ -35,36 +35,51 @@ class BBB3Conv3FC(ModuleWrapper):
 
         self.conv1 = BBBConv2d(inputs, 32, 5, padding=2, bias=True, priors=self.priors)
         self.act1 = self.act()
+
+        self.conv2 = BBBConv2d(32, 32, 5, padding=2, bias=True, priors=self.priors)
+        self.act2 = self.act()
         self.pool1 = nn.MaxPool2d(kernel_size=6, stride=2)
 
-        self.conv2 = BBBConv2d(32, 64, 5, padding=2, bias=True, priors=self.priors)
-        self.act2 = self.act()
-        self.pool2 = nn.MaxPool2d(kernel_size=6, stride=2)
-
-        self.conv3 = BBBConv2d(64, 128, 5, padding=1, bias=True, priors=self.priors)
+        self.conv3 = BBBConv2d(32, 64, 5, padding=2, bias=True, priors=self.priors)
         self.act3 = self.act()
+
+        self.conv4 = BBBConv2d(64, 64, 5, padding=2, bias=True, priors=self.priors)
+        self.act4 = self.act()
+        self.pool2 = nn.MaxPool2d(kernel_size=6, stride=2)
+        
+        self.conv5 = BBBConv2d(64, 128, 5, padding=1, bias=True, priors=self.priors)
+        self.act5 = self.act()
+        
+        self.conv6 = BBBConv2d(128, 128, 5, padding=1, bias=True, priors=self.priors)
+        self.act6 = self.act()
         self.pool3 = nn.MaxPool2d(kernel_size=6, stride=2)
 
-        self.conv4 = BBBConv2d(128, 256, 5, padding=1, bias=True, priors=self.priors)
-        self.act4 = self.act()
-        self.pool4 = nn.MaxPool2d(kernel_size=6, stride=2)
         
-        self.conv5 = BBBConv2d(256, 256, 5, padding=1, bias=True, priors=self.priors)
-        self.act5 = self.act()
+        self.conv7 = BBBConv2d(128, 256, 5, padding=1, bias=True, priors=self.priors)
+        self.act7 = self.act()
+        self.pool4 = nn.MaxPool2d(kernel_size=6, stride=2)
+
+        
+        self.conv8 = BBBConv2d(256, 256, 5, padding=1, bias=True, priors=self.priors)
+        self.act8 = self.act()
         self.pool5 = nn.MaxPool2d(kernel_size=6, stride=2)
 
         self.flatten = nn.Flatten(1,3)
         
-        self.fc1 = BBBLinear(2 * 2 * 256, 1000, bias=True, priors=self.priors)
-        self.act6 = self.act()
-
-        self.fc2 = BBBLinear(1000, 1000, bias=True, priors=self.priors)
-        self.act7 = self.act()
-        
-        self.fc3 = BBBLinear(1000, 1000, bias=True, priors=self.priors)
-        self.act8 = self.act()
-        
-        self.fc4 = BBBLinear(1000, 1000, bias=True, priors=self.priors)
+        self.fc1 = BBBLinear(2 * 2 * 256, 1024, bias=True, priors=self.priors)
         self.act9 = self.act()
 
-        self.fc5 = BBBLinear(1000, outputs, bias=True, priors=self.priors)
+        self.fc2 = BBBLinear(1024, 512, bias=True, priors=self.priors)
+        self.act10 = self.act()
+        
+        self.fc3 = BBBLinear(512, 256, bias=True, priors=self.priors)
+        self.act11 = self.act()
+        
+        self.fc4 = BBBLinear(256, 128, bias=True, priors=self.priors)
+        self.act12 = self.act()
+        
+        self.fc5 = BBBLinear(128, 64, bias=True, priors=self.priors)
+        self.act13 = self.act()
+
+
+        self.fc6 = BBBLinear(64, outputs, bias=True, priors=self.priors)
