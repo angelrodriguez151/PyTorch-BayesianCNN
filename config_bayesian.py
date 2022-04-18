@@ -3,9 +3,9 @@ layer_type = 'lrt' # 'bbb' or 'lrt'
 activation_type = 'softplus'  # 'softplus' or 'relu'
 priors={
     'prior_mu': 0,
-    'prior_sigma': 0.25,
-    'posterior_mu_initial': (0, 0.25),  # (mean, std) normal_
-    'posterior_rho_initial': (-5, 0.25),  # (mean, std) normal_
+    'prior_sigma': 0.7,
+    'posterior_mu_initial': (0, 0.7),  # (mean, std) normal_
+    'posterior_rho_initial': (-5, 0.7),  # (mean, std) normal_
 }
 
 n_epochs = 50
