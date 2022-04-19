@@ -18,7 +18,7 @@ class ThreeConvThreeFC(nn.Module):
         super(ThreeConvThreeFC, self).__init__()
         self.features = nn.Sequential(
             
-            nn.Conv2d(inputs, 16, 3),
+            nn.Conv2d(inputs, 24, 3),
             nn.Softplus(),
             nn.MaxPool2d(6,6),
             nn.Dropout(),
@@ -27,10 +27,10 @@ class ThreeConvThreeFC(nn.Module):
         )
         self.classifier = nn.Sequential(
             nn.Flatten(1),
-            nn.Linear(1600,512),
+            nn.Linear(2400,1024),
             nn.Softplus(),
             nn.Dropout(),
-            nn.Linear(512, outputs),
+            nn.Linear(1024, outputs),
     
         )
 
