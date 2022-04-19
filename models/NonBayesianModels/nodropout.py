@@ -20,13 +20,13 @@ class nodropout(nn.Module):
             
             nn.Conv2d(inputs, 16, 3),
             nn.Softplus(),
-            nn.MaxPool2d(3,3),
+            nn.MaxPool2d(6,6),
             
             
         )
         self.classifier = nn.Sequential(
             nn.Flatten(1),
-            nn.Linear(6400, 1024),
+            nn.Linear(1600, 512),
             nn.Softplus(),
             nn.Linear(1024, outputs),
     
