@@ -28,7 +28,7 @@ class nodropout(nn.Module):
             nn.Flatten(1),
             nn.Linear(1600, 512),
             nn.Softplus(),
-            nn.Linear(1024, outputs),
+            nn.Linear(512, outputs),
     
         )
 
