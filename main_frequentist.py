@@ -15,6 +15,7 @@ import config_frequentist as cfg
 from models.NonBayesianModels.AlexNet import AlexNet
 from models.NonBayesianModels.LeNet import LeNet
 from models.NonBayesianModels.ThreeConvThreeFC import ThreeConvThreeFC
+from models.NonBayesianModels.nodropout import nodropout
 
 # CUDA settings
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -27,6 +28,8 @@ def getModel(net_type, inputs, outputs):
         return AlexNet(outputs, inputs)
     elif (net_type == '3conv3fc'):
         return ThreeConvThreeFC(outputs, inputs)
+    elif (net_type == 'nodropout'):
+        return  nodropout(outputs, inputs)
     else:
         raise ValueError('Network should be either [LeNet / AlexNet / 3Conv3FC')
 
