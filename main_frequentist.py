@@ -92,7 +92,7 @@ def run(dataset, net_type):
     for epoch in range(1, n_epochs+1):
 
         train_loss, train_acc = train_model(net, optimizer, criterion, train_loader)
-        valid_loss, valid_acc = validate_model(net, criterion, valid_loader)
+        valid_loss, valid_acc = validate_model(net, criterion, test_loader)
         lr_sched.step(valid_loss)
 
         train_loss = train_loss/len(train_loader.dataset)
@@ -103,7 +103,7 @@ def run(dataset, net_type):
             epoch, train_loss, train_acc, valid_loss, valid_acc))
         
         # save model if validation loss has decreased
-        if valid_loss <= valid_loss_min:
+        if epoch == 15:
             print('Validation loss decreased ({:.6f} --> {:.6f}).  Saving model ...'.format(
                 valid_loss_min, valid_loss))
             torch.save(net.state_dict(), ckpt_name)
