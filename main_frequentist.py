@@ -104,8 +104,7 @@ def run(dataset, net_type):
         
         # save model if validation loss has decreased
         if epoch == 30:
-            print('Validation loss decreased ({:.6f} --> {:.6f}).  Saving model ...'.format(
-                valid_loss_min, valid_loss))
+            print( 'Saving model ...')
             torch.save(net.state_dict(), ckpt_name)
             valid_loss_min = valid_loss
     return trainaccuracy, valaccuracy

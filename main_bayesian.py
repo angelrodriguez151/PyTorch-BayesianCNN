@@ -129,8 +129,7 @@ def run(dataset, net_type):
 
         # save model if validation accuracy has increased
         if epoch == 29:
-            print( Saving model ...'.format(
-                valid_loss_max, valid_loss))
+            print( 'Saving model ...')
             torch.save(net.state_dict(), ckpt_name)
             valid_loss_max = valid_loss
     return trainaccuracy, valaccuracy 
