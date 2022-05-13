@@ -12,7 +12,7 @@ import data
 import utils
 import metrics
 import config_bayesian as cfg
-from models.BayesianModels.Bayesian3Conv3FC import BBB3Conv3FC
+from models.BayesianModels.Bayesianmymodel import BBBmymodel
 from models.BayesianModels.BayesianAlexNet import BBBAlexNet
 from models.BayesianModels.BayesianLeNet import BBBLeNet
 
@@ -24,8 +24,8 @@ def getModel(net_type, inputs, outputs, priors, layer_type, activation_type):
         return BBBLeNet(outputs, inputs, priors, layer_type, activation_type)
     elif (net_type == 'alexnet'):
         return BBBAlexNet(outputs, inputs, priors, layer_type, activation_type)
-    elif (net_type == '3conv3fc'):
-        return BBB3Conv3FC(outputs, inputs, priors, layer_type, activation_type)
+    elif (net_type == 'mymodel'):
+        return BBBmymodel(outputs, inputs, priors, layer_type, activation_type)
     else:
         raise ValueError('Network should be either [LeNet / AlexNet / 3Conv3FC')
 
@@ -128,8 +128,8 @@ def run(dataset, net_type):
             epoch, train_loss, train_acc, valid_loss, valid_acc, train_kl))
 
         # save model if validation accuracy has increased
-        if epoch == 15:
-            print('Validation loss decreased ({:.6f} --> {:.6f}).  Saving model ...'.format(
+        if epoch == 29:
+            print( Saving model ...'.format(
                 valid_loss_max, valid_loss))
             torch.save(net.state_dict(), ckpt_name)
             valid_loss_max = valid_loss

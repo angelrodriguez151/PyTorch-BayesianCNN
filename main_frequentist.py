@@ -14,7 +14,7 @@ import metrics
 import config_frequentist as cfg
 from models.NonBayesianModels.AlexNet import AlexNet
 from models.NonBayesianModels.LeNet import LeNet
-from models.NonBayesianModels.ThreeConvThreeFC import ThreeConvThreeFC
+from models.NonBayesianModels.dropout import dropout
 from models.NonBayesianModels.nodropout import nodropout
 
 # CUDA settings
@@ -26,8 +26,8 @@ def getModel(net_type, inputs, outputs):
         return LeNet(outputs, inputs)
     elif (net_type == 'alexnet'):
         return AlexNet(outputs, inputs)
-    elif (net_type == '3conv3fc'):
-        return ThreeConvThreeFC(outputs, inputs)
+    elif (net_type == 'dropout'):
+        return dropout(outputs, inputs)
     elif (net_type == 'nodropout'):
         return  nodropout(outputs, inputs)
     else:
@@ -103,7 +103,7 @@ def run(dataset, net_type):
             epoch, train_loss, train_acc, valid_loss, valid_acc))
         
         # save model if validation loss has decreased
-        if epoch == 15:
+        if epoch == 30:
             print('Validation loss decreased ({:.6f} --> {:.6f}).  Saving model ...'.format(
                 valid_loss_min, valid_loss))
             torch.save(net.state_dict(), ckpt_name)

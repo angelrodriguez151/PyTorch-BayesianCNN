@@ -9,13 +9,13 @@ def conv_init(m):
         nn.init.normal_(m.weight, mean=0, std=1)
         nn.init.constant(m.bias, 0)
 
-class ThreeConvThreeFC(nn.Module):
+class dropout(nn.Module):
     """
     To train on CIFAR-10:
     https://arxiv.org/pdf/1207.0580.pdf
     """
     def __init__(self, outputs, inputs):
-        super(ThreeConvThreeFC, self).__init__()
+        super(dropout, self).__init__()
         self.features = nn.Sequential(
             
             nn.Conv2d(inputs, 24, 3),
