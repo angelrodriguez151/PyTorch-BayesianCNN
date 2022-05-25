@@ -55,7 +55,6 @@ def train_model(net, optimizer, criterion, trainloader, num_ens=1, beta_type=0.1
         loss = criterion(log_outputs, labels, kl, beta)
         loss.backward()
         optimizer.step()
-
         accs.append(metrics.acc(log_outputs.data, labels))
         training_loss += loss.cpu().data.numpy()
     return training_loss/len(trainloader), np.mean(accs), np.mean(kl_list)
@@ -132,7 +131,33 @@ def run(dataset, net_type):
             print( 'Saving model ...')
             torch.save(net.state_dict(), ckpt_name)
             valid_loss_max = valid_loss
-    return trainaccuracy, valaccuracy 
+    return trainaccuracy, valaccuracy
+
+def testing(net,  validloader, num_ens=1, beta_type=0.1, epoch=None, num_epochs=None):
+    """Calculate ensemble accuracy and NLL Loss"""
+    from torch import nn
+    valid_loss = 0.0
+    accs = []
+    auc=[]
+    for i, (inputs, labels) in enumerate(validloader):
+        inputs, labels = inputs.to(device), labels.to(device)
+        outputs = torch.zeros(inputs.shape[0], net.num_classes, num_ens).to(device)
+        kl = 0.0
+        for j in range(num_ens):
+            net_out, _kl = net(inputs)
+            kl += _kl
+            outputs[:, :, j] = F.log_softmax(net_out, dim=1).data
+
+        log_outputs = utils.logmeanexp(outputs, dim=2)
+        beta = metrics.get_beta(i-1, len(validloader), beta_type, epoch, num_epochs)
+        loss = nn.NLLLoss(log_outputs, labels)
+        valid_loss +=loss.item()*data.size(0)
+        accs.append(metrics.acc(log_outputs, labels))
+        auc.append( metrics.rocauc(log_outputs.data, labels))
+
+    return valid_loss, np.mean(accs), np.mean(auc)
+
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description = "PyTorch Bayesian Model Training")

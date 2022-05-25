@@ -23,11 +23,12 @@ class ELBO(nn.Module):
 def acc(outputs, targets):
     return np.mean(outputs.cpu().numpy().argmax(axis=1) == targets.data.cpu().numpy())
 
-def crossentropy(outputs, targets):
-    return nn.CrossEntropyLoss(outputs, targets)
-
 def rocauc(outputs, targets):
-    print(outputs.cpu().numpy())
+    from sklearn.metrics import roc_curve, auc
+    probs = torch.exp(outputs)
+    y= probs.cpu().numpy()[:,1]
+    fpr, tpr, thresholds = roc_curve(targets.data.cpu().numpy(), y)
+    return(auc(fpr, tpr))
     
 
 def calculate_kl(mu_q, sig_q, mu_p, sig_p):

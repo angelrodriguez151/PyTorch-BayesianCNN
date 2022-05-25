@@ -60,7 +60,6 @@ def validate_model(net, criterion, valid_loader):
         loss = criterion(output, target)
         valid_loss += loss.item()*data.size(0)
         accs.append(metrics.acc(output.detach(), target))
-        metrics.rocauc(output.detach(), target)
     return valid_loss, np.mean(accs)
 
 
@@ -109,6 +108,23 @@ def run(dataset, net_type):
             torch.save(net.state_dict(), ckpt_name)
             valid_loss_min = valid_loss
     return trainaccuracy, valaccuracy
+
+def testing(net, valid_loader):
+    from torch.nn import functional as F
+    valid_loss = 0.0
+    net.eval()
+    accs = []
+    auc = []
+    for data, target in valid_loader:
+        data, target = data.to(device), target.to(device)
+        output = net(data)
+        logprobs =F.log_softmax(output)
+        loss = nn.CrossEntropyLoss(output, target)
+        auc.append( metrics.rocauc(logprobs.detach(), target))
+        valid_loss += loss.item()*data.size(0)
+        accs.append(metrics.acc(output.detach(), target))
+    return valid_loss, np.mean(accs), np.mean(auc)
+    
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description = "PyTorch Frequentist Model Training")
