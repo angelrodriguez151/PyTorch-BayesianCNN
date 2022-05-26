@@ -119,7 +119,7 @@ def testing(net, valid_loader):
         data, target = data.to(device), target.to(device)
         output = net(data)
         logprobs =F.log_softmax(output)
-	  criterion = nn.CrossEntropyLoss()
+        criterion = nn.CrossEntropyLoss()
         loss = criterion(output, target)
         auc.append( metrics.rocauc(logprobs.detach(), target))
         valid_loss += loss.item()*data.size(0)
