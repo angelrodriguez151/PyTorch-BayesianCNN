@@ -151,7 +151,7 @@ def testing(net,  validloader, num_ens=1, beta_type=0.1, epoch=None, num_epochs=
         log_outputs = utils.logmeanexp(outputs, dim=2)
         beta = metrics.get_beta(i-1, len(validloader), beta_type, epoch, num_epochs)
         loss = nn.NLLLoss(log_outputs, labels)
-        valid_loss +=loss.item()*data.size(0)
+        valid_loss +=loss.item()*inputs.size(0)
         accs.append(metrics.acc(log_outputs, labels))
         auc.append( metrics.rocauc(log_outputs.data, labels))
 

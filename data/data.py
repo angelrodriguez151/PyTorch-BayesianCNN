@@ -187,10 +187,10 @@ def getDataloader(trainset, testset, valid_size, batch_size, num_workers):
     valid_sampler = SubsetRandomSampler(valid_idx)
 
     train_loader = torch.utils.data.DataLoader(trainset, batch_size=batch_size,
-        sampler=train_sampler, num_workers=num_workers)
+        sampler=train_sampler, num_workers=num_workers, shuffle=True)
     valid_loader = torch.utils.data.DataLoader(trainset, batch_size=batch_size, 
         sampler=valid_sampler, num_workers=num_workers)
     test_loader = torch.utils.data.DataLoader(testset, batch_size=batch_size, 
-        num_workers=num_workers)
+        num_workers=num_workers, shuffle=True)
 
     return train_loader, valid_loader, test_loader
