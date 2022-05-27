@@ -62,6 +62,20 @@ def validate_model(net, criterion, valid_loader):
         accs.append(metrics.acc(output.detach(), target))
     return valid_loss, np.mean(accs)
 
+def testing(net, testloader):
+    from torch.nn import functional as F
+    valid_loss = 0.0
+    net.eval()
+    accs = []
+    auc = []
+    for data, target in testloader:
+        data, target = data.to(device), target.to(device)
+        output = net(data)
+        logprobs =F.log_softmax(output)
+        auc.append( metrics.rocauc(logprobs.detach(), target))
+        accs.append(metrics.acc(output.detach(), target))
+    return  np.mean(accs), np.mean(auc)
+    
 
 def run(dataset, net_type):
 
@@ -92,7 +106,7 @@ def run(dataset, net_type):
     for epoch in range(1, n_epochs+1):
 
         train_loss, train_acc = train_model(net, optimizer, criterion, train_loader)
-        valid_loss, valid_acc = validate_model(net, criterion, test_loader)
+        valid_loss, valid_acc = validate_model(net, criterion, valid_loader)
         lr_sched.step(valid_loss)
 
         train_loss = train_loss/len(train_loader.dataset)
@@ -103,29 +117,13 @@ def run(dataset, net_type):
             epoch, train_loss, train_acc, valid_loss, valid_acc))
         
         # save model if validation loss has decreased
-        if epoch == 30:
-            print( 'Saving model ...')
+        if valid_loss <= valid_loss_min:
+            print('Validation loss decreased ({:.6f} --> {:.6f}).  Saving model ...'.format(
+                valid_loss_min, valid_loss))
             torch.save(net.state_dict(), ckpt_name)
             valid_loss_min = valid_loss
-    return trainaccuracy, valaccuracy
-
-def testing(net, valid_loader):
-    from torch.nn import functional as F
-    valid_loss = 0.0
-    net.eval()
-    accs = []
-    auc = []
-    for data, target in valid_loader:
-        data, target = data.to(device), target.to(device)
-        output = net(data)
-        logprobs =F.log_softmax(output)
-        criterion = nn.CrossEntropyLoss()
-        loss = criterion(output, target)
-        auc.append( metrics.rocauc(logprobs.detach(), target))
-        valid_loss += loss.item()*data.size(0)
-        accs.append(metrics.acc(output.detach(), target))
-    return valid_loss, np.mean(accs), np.mean(auc)
-    
+    accs, auc = testing(net, test_loader)
+    return (accs, auc), trainaccuracy, valaccuracy
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description = "PyTorch Frequentist Model Training")

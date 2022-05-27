@@ -8,10 +8,10 @@ priors={
     'posterior_rho_initial': (-5, 0.5),  # (mean, std) normal_
 }
 
-n_epochs = 30
+n_epochs = 40
 lr_start = 0.001
 num_workers = 2
-valid_size = 0
+valid_size = 0.1
 batch_size = 16
 train_ens = 1
 valid_ens = 1

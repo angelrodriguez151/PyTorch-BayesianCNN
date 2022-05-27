@@ -82,6 +82,27 @@ def validate_model(net, criterion, validloader, num_ens=1, beta_type=0.1, epoch=
 
     return valid_loss/len(validloader), np.mean(accs)
 
+def testing(net,  testloader, num_ens=1, beta_type=0.1, epoch=None, num_epochs=None):
+    """Calculate accuracy and mean roc-auc"""
+    from torch import nn
+    valid_loss = 0.0
+    accs = []
+    auc=[]
+    for i, (inputs, labels) in enumerate(testloader):
+        inputs, labels = inputs.to(device), labels.to(device)
+        outputs = torch.zeros(inputs.shape[0], net.num_classes, num_ens).to(device)
+        kl = 0.0
+        for j in range(num_ens):
+            net_out, _kl = net(inputs)
+            kl += _kl
+            outputs[:, :, j] = F.log_softmax(net_out, dim=1).data
+
+        log_outputs = utils.logmeanexp(outputs, dim=2)
+        beta = metrics.get_beta(i-1, len(testloader), beta_type, epoch, num_epochs)
+        accs.append(metrics.acc(log_outputs, labels))
+        auc.append( metrics.rocauc(log_outputs.data, labels))
+
+    return  np.mean(accs), np.mean(auc)
 
 def run(dataset, net_type):
 
@@ -119,7 +140,8 @@ def run(dataset, net_type):
     for epoch in range(n_epochs):  # loop over the dataset multiple times
 
         train_loss, train_acc, train_kl = train_model(net, optimizer, criterion, train_loader, num_ens=train_ens, beta_type=beta_type, epoch=epoch, num_epochs=n_epochs)
-        valid_loss, valid_acc = validate_model(net, criterion, test_loader, num_ens=valid_ens, beta_type=beta_type, epoch=epoch, num_epochs=n_epochs)
+        valid_loss, valid_acc = validate_model(net, criterion, valid_loader, num_ens=valid_ens, beta_type=beta_type, epoch=epoch, num_epochs=n_epochs)
+        test_acc, test_auc = testing(net, test_loader)
         lr_sched.step(valid_loss)
         trainaccuracy.append(train_acc)
         valaccuracy.append(valid_acc)
@@ -127,36 +149,15 @@ def run(dataset, net_type):
             epoch, train_loss, train_acc, valid_loss, valid_acc, train_kl))
 
         # save model if validation accuracy has increased
-        if epoch == 29:
-            print( 'Saving model ...')
-            torch.save(net.state_dict(), ckpt_name)
-            valid_loss_max = valid_loss
-    return trainaccuracy, valaccuracy
+        if valid_loss <= valid_loss_max:
+             print('Validation loss decreased ({:.6f} --> {:.6f}).  Saving model ...'.format(
+                valid_loss_max, valid_loss))
+             torch.save(net.state_dict(), ckpt_name) 
+             valid_loss_max = valid_loss
+    accs, auc = testing(net, test_loader)
+             
+    return (accs, auc), trainaccuracy, valaccuracy
 
-def testing(net,  validloader, num_ens=1, beta_type=0.1, epoch=None, num_epochs=None):
-    """Calculate ensemble accuracy and NLL Loss"""
-    from torch import nn
-    valid_loss = 0.0
-    accs = []
-    auc=[]
-    for i, (inputs, labels) in enumerate(validloader):
-        inputs, labels = inputs.to(device), labels.to(device)
-        outputs = torch.zeros(inputs.shape[0], net.num_classes, num_ens).to(device)
-        kl = 0.0
-        for j in range(num_ens):
-            net_out, _kl = net(inputs)
-            kl += _kl
-            outputs[:, :, j] = F.log_softmax(net_out, dim=1).data
-
-        log_outputs = utils.logmeanexp(outputs, dim=2)
-        beta = metrics.get_beta(i-1, len(validloader), beta_type, epoch, num_epochs)
-        criterion = nn.NLLLoss()
-        loss = criterion(log_outputs, labels)
-        valid_loss +=loss.item()*inputs.size(0)
-        accs.append(metrics.acc(log_outputs, labels))
-        auc.append( metrics.rocauc(log_outputs.data, labels))
-
-    return valid_loss, np.mean(accs), np.mean(auc)
 
 
 
