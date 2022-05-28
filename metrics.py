@@ -24,9 +24,9 @@ def acc(outputs, targets):
     return np.mean(outputs.cpu().numpy().argmax(axis=1) == targets.data.cpu().numpy())
 
 def sensibility(outputs, targets):
-    return np.mean(outputs.cpu().numpy().argmax(axis=1) ==1 and targets.data.cpu().numpy()==1)
+    return np.mean((outputs.cpu().numpy().argmax(axis=1) ==1) * (targets.data.cpu().numpy()==1))
 def specificity(outputs, targets):
-    return np.mean(outputs.cpu().numpy().argmax(axis=1) ==0 and targets.data.cpu().numpy()==0)
+    return np.mean((outputs.cpu().numpy().argmax(axis=1) ==0) * (targets.data.cpu().numpy()==0))
 
 def rocauc(outputs, targets):
     from sklearn.metrics import roc_curve, auc
