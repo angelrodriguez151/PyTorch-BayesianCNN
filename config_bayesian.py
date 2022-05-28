@@ -8,11 +8,11 @@ priors={
     'posterior_rho_initial': (-5, 0.5),  # (mean, std) normal_
 }
 
-n_epochs = 40
+n_epochs = 30
 lr_start = 0.001
 num_workers = 2
 valid_size = 0.3
-batch_size = 512
+batch_size = 128
 train_ens = 1
 valid_ens = 1
 beta_type = 0.1 # 'Blundell', 'Standard', etc. Use float for const value

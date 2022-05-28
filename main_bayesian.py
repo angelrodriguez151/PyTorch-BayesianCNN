@@ -88,6 +88,8 @@ def testing(net,  testloader, num_ens=1, beta_type=0.1, epoch=None, num_epochs=N
     valid_loss = 0.0
     accs = []
     auc=[]
+    spec=[]
+    sens=[]
     for i, (inputs, labels) in enumerate(testloader):
         inputs, labels = inputs.to(device), labels.to(device)
         outputs = torch.zeros(inputs.shape[0], net.num_classes, num_ens).to(device)
@@ -100,9 +102,11 @@ def testing(net,  testloader, num_ens=1, beta_type=0.1, epoch=None, num_epochs=N
         log_outputs = utils.logmeanexp(outputs, dim=2)
         beta = metrics.get_beta(i-1, len(testloader), beta_type, epoch, num_epochs)
         accs.append(metrics.acc(log_outputs, labels))
+        spec.append(metrics.specificity(log_outputs, labels))
+        sens.append(metrics.sensibility(log_outputs, labels))
         auc.append( metrics.rocauc(log_outputs.data, labels))
 
-    return  np.mean(accs), np.mean(auc)
+    return  np.mean(accs), np.mean(auc), np.mean(spec), np.mean(sens)
 
 def run(dataset, net_type):
 
@@ -137,6 +141,8 @@ def run(dataset, net_type):
     valid_loss_max = np.Inf
     trainaccuracy = []
     valaccuracy  = []
+    import time
+    t1=time.time()
     for epoch in range(n_epochs):  # loop over the dataset multiple times
 
         train_loss, train_acc, train_kl = train_model(net, optimizer, criterion, train_loader, num_ens=train_ens, beta_type=beta_type, epoch=epoch, num_epochs=n_epochs)
@@ -154,9 +160,9 @@ def run(dataset, net_type):
                 valid_loss_max, valid_loss))
              torch.save(net.state_dict(), ckpt_name) 
              valid_loss_max = valid_loss
-    accs, auc = testing(net, test_loader)
-             
-    return (accs, auc), trainaccuracy, valaccuracy
+    accs, auc, spec, sens = testing(net, test_loader)
+    t2= time.time()-t1       
+    return (t2, accs, auc, spec, sens), trainaccuracy, valaccuracy
 
 
 

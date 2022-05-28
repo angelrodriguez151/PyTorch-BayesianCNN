@@ -68,13 +68,17 @@ def testing(net, testloader):
     net.eval()
     accs = []
     auc = []
+    spec=[]
+    sens=[]
     for data, target in testloader:
         data, target = data.to(device), target.to(device)
         output = net(data)
         logprobs =F.log_softmax(output)
         auc.append( metrics.rocauc(logprobs.detach(), target))
         accs.append(metrics.acc(output.detach(), target))
-    return  np.mean(accs), np.mean(auc)
+        spec.append(metrics.specificity(output.detach(), target))
+        sens.append(metrics.sensibility(output.detach(), target))
+    return  np.mean(accs), np.mean(auc), np.mean(spec), np.mean(sens)
     
 
 def run(dataset, net_type):
@@ -103,6 +107,8 @@ def run(dataset, net_type):
     valid_loss_min = np.Inf
     trainaccuracy = []
     valaccuracy  = []
+    import time
+    t1=time.time()
     for epoch in range(1, n_epochs+1):
 
         train_loss, train_acc = train_model(net, optimizer, criterion, train_loader)
@@ -122,8 +128,9 @@ def run(dataset, net_type):
                 valid_loss_min, valid_loss))
             torch.save(net.state_dict(), ckpt_name)
             valid_loss_min = valid_loss
-    accs, auc = testing(net, test_loader)
-    return (accs, auc), trainaccuracy, valaccuracy
+    t2=time.time()-t1
+    accs, auc, spec, sens = testing(net, test_loader)
+    return (t2,accs, auc, spec, sens), trainaccuracy, valaccuracy
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description = "PyTorch Frequentist Model Training")
