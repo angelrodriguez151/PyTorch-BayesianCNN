@@ -1,6 +1,6 @@
 ############### Configuration file for Frequentist ###############
-n_epochs = 3
+n_epochs = 30
 lr = 0.001
 num_workers = 2
 valid_size = 0.3
-batch_size = 128
+batch_size = 16
