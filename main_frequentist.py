@@ -73,7 +73,7 @@ def testing(net, testloader):
     for data, target in testloader:
         data, target = data.to(device), target.to(device)
         output = net(data)
-        logprobs =F.log_softmax(output)
+        logprobs =F.log_softmax(output, dim =2)
         auc.append( metrics.rocauc(logprobs.detach(), target))
         accs.append(metrics.acc(output.detach(), target))
         spec.append(metrics.specificity(output.detach(), target))

@@ -147,7 +147,6 @@ def run(dataset, net_type):
 
         train_loss, train_acc, train_kl = train_model(net, optimizer, criterion, train_loader, num_ens=train_ens, beta_type=beta_type, epoch=epoch, num_epochs=n_epochs)
         valid_loss, valid_acc = validate_model(net, criterion, valid_loader, num_ens=valid_ens, beta_type=beta_type, epoch=epoch, num_epochs=n_epochs)
-        test_acc, test_auc = testing(net, test_loader)
         lr_sched.step(valid_loss)
         trainaccuracy.append(train_acc)
         valaccuracy.append(valid_acc)
