@@ -44,11 +44,11 @@ def train_model(net, optimizer, criterion, train_loader):
         optimizer.zero_grad()
         output = net(data)
         output = sigmoid(output)
-        loss = criterion(output, target)
+        loss = criterion(output[0], target)
         loss.backward()
         optimizer.step()
         train_loss += loss.item()*data.size(0)
-        accs.append(metrics.acc(output.detach(), target))
+        accs.append(metrics.acc(output[0].detach(), target))
     return train_loss, np.mean(accs)
 
 
@@ -61,9 +61,9 @@ def validate_model(net, criterion, valid_loader):
         data, target = data.to(device), target.to(device)
         output = net(data)
         output = sigmoid(output)
-        loss = criterion(output, target)
+        loss = criterion(output[0], target)
         valid_loss += loss.item()*data.size(0)
-        accs.append(metrics.acc(output.detach(), target))
+        accs.append(metrics.acc(output[0].detach(), target))
     return valid_loss, np.mean(accs)
 
 def testing(net, testloader):
@@ -79,11 +79,10 @@ def testing(net, testloader):
         data, target = data.to(device), target.to(device)
         output = net(data)
         output = sigmoid(output)
-        logprobs =F.log_softmax(output, dim =1)
-        auc.append( metrics.rocauc(logprobs.detach(), target))
-        accs.append(metrics.acc(output.detach(), target))
-        spec.append(metrics.specificity(output.detach(), target))
-        sens.append(metrics.sensibility(output.detach(), target))
+        auc.append( metrics.rocauc(output[0].detach(), target))
+        accs.append(metrics.acc(output[0].detach(), target))
+        spec.append(metrics.specificity(output[0].detach(), target))
+        sens.append(metrics.sensibility(output[0].detach(), target))
     return  np.mean(accs), np.mean(auc), np.mean(spec), np.mean(sens)
     
 
