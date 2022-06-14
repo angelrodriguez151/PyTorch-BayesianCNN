@@ -11,7 +11,7 @@ class ELBO(nn.Module):
 
     def forward(self, input, target, kl, beta):
         assert not target.requires_grad
-        return F.nll_loss(input, target, reduction='mean') * self.train_size + beta * kl
+        return nn.bceloss(input, target, reduction='mean') * self.train_size + beta * kl
 
 
 # def lr_linear(epoch_num, decay_start, total_epochs, start_value):
