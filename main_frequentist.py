@@ -43,7 +43,7 @@ def train_model(net, optimizer, criterion, train_loader):
         data, target = data.to(device), target.to(device)
         optimizer.zero_grad()
         output = net(data)
-        output = sigmoid(data)
+        output = sigmoid(output)
         loss = criterion(output, target)
         loss.backward()
         optimizer.step()
@@ -78,7 +78,7 @@ def testing(net, testloader):
     for data, target in testloader:
         data, target = data.to(device), target.to(device)
         output = net(data)
-        output = sigmoid(data)
+        output = sigmoid(output)
         logprobs =F.log_softmax(output, dim =1)
         auc.append( metrics.rocauc(logprobs.detach(), target))
         accs.append(metrics.acc(output.detach(), target))
