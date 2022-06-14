@@ -60,7 +60,7 @@ def validate_model(net, criterion, valid_loader):
     for data, target in valid_loader:
         data, target = data.to(device), target.to(device)
         output = net(data)
-        output = sigmoid(data)
+        output = sigmoid(output)
         loss = criterion(output, target)
         valid_loss += loss.item()*data.size(0)
         accs.append(metrics.acc(output.detach(), target))
