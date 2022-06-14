@@ -106,7 +106,7 @@ def run(dataset, net_type):
 
     if not os.path.exists(ckpt_dir):
         os.makedirs(ckpt_dir, exist_ok=True)
-    criterion = nn.CrossEntropyLoss()
+    criterion = nn.BCELoss()
     optimizer = Adam(net.parameters(), lr=lr)
     lr_sched = lr_scheduler.ReduceLROnPlateau(optimizer, patience=6, verbose=True)
     valid_loss_min = np.Inf
