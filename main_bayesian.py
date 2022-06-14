@@ -96,14 +96,14 @@ def testing(net,  testloader, num_ens=1, beta_type=0.1, epoch=None, num_epochs=N
         for j in range(num_ens):
             net_out, _kl = net(inputs)
             kl += _kl
-            outputs[:, j] = torch.log_softmax(net_out, dim=1).data
+            outputs[:, j] = torch.sigmoid(net_out.reshape(-1)).data
 
         log_outputs = outputs.reshape(-1)
         beta = metrics.get_beta(i-1, len(testloader), beta_type, epoch, num_epochs)
-        accs.append(metrics.acc(log_outputs, labels))
-        spec.append(metrics.specificity(log_outputs, labels))
-        sens.append(metrics.sensibility(log_outputs, labels))
-        auc.append( metrics.rocauc(log_outputs.data, labels))
+        accs.append(metrics.acc(log_outputs.float(), labels))
+        spec.append(metrics.specificity(log_outputs.float(), labels))
+        sens.append(metrics.sensibility(log_outputs.float(), labels))
+        auc.append( metrics.rocauc(log_outputs.data.float(), labels))
 
     return  np.mean(accs), np.mean(auc), np.mean(spec), np.mean(sens)
 

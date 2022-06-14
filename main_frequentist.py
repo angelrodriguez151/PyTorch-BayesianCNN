@@ -79,10 +79,10 @@ def testing(net, testloader):
         data, target = data.to(device), target.to(device).float()
         output = net(data)
         output = sigmoid(output).reshape(-1)
-        auc.append( metrics.rocauc(output.detach(), target))
-        accs.append(metrics.acc(output.detach(), target))
-        spec.append(metrics.specificity(output.detach(), target))
-        sens.append(metrics.sensibility(output.detach(), target))
+        auc.append( metrics.rocauc(output.detach().float(), target))
+        accs.append(metrics.acc(output.detach().float(), target))
+        spec.append(metrics.specificity(output.detach().float(), target))
+        sens.append(metrics.sensibility(output.detach().float(), target))
     return  np.mean(accs), np.mean(auc), np.mean(spec), np.mean(sens)
     
 
