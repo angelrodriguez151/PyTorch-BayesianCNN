@@ -10,7 +10,7 @@ class ELBO(nn.Module):
         self.train_size = train_size
 
     def forward(self, input, target, kl, beta):
-        bceloss = nn.BCELoss()
+        bceloss = nn.BCELoss(reduction="mean")
         assert not target.requires_grad
         
         return bceloss(input, target) * self.train_size + beta * kl
