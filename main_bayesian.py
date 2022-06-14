@@ -49,6 +49,7 @@ def train_model(net, optimizer, criterion, trainloader, num_ens=1, beta_type=0.1
         
         kl = kl / num_ens
         kl_list.append(kl.item())
+        print("ok")
         log_outputs = utils.logmeanexp(outputs, dim=2)
 
         beta = metrics.get_beta(i-1, len(trainloader), beta_type, epoch, num_epochs)
