@@ -36,12 +36,14 @@ def getModel(net_type, inputs, outputs):
 
 def train_model(net, optimizer, criterion, train_loader):
     train_loss = 0.0
+    sigmoid = nn.Sigmoid()
     net.train()
     accs = []
     for data, target in train_loader:
         data, target = data.to(device), target.to(device)
         optimizer.zero_grad()
         output = net(data)
+        output = sigmoid(data)
         loss = criterion(output, target)
         loss.backward()
         optimizer.step()
@@ -52,11 +54,13 @@ def train_model(net, optimizer, criterion, train_loader):
 
 def validate_model(net, criterion, valid_loader):
     valid_loss = 0.0
+    sigmoid = nn.Sigmoid()
     net.eval()
     accs = []
     for data, target in valid_loader:
         data, target = data.to(device), target.to(device)
         output = net(data)
+        output = sigmoid(data)
         loss = criterion(output, target)
         valid_loss += loss.item()*data.size(0)
         accs.append(metrics.acc(output.detach(), target))
@@ -65,6 +69,7 @@ def validate_model(net, criterion, valid_loader):
 def testing(net, testloader):
     from torch.nn import functional as F
     valid_loss = 0.0
+    sigmoid = nn.Sigmoid()
     net.eval()
     accs = []
     auc = []
@@ -73,6 +78,7 @@ def testing(net, testloader):
     for data, target in testloader:
         data, target = data.to(device), target.to(device)
         output = net(data)
+        output = sigmoid(data)
         logprobs =F.log_softmax(output, dim =1)
         auc.append( metrics.rocauc(logprobs.detach(), target))
         accs.append(metrics.acc(output.detach(), target))
@@ -100,7 +106,6 @@ def run(dataset, net_type):
 
     if not os.path.exists(ckpt_dir):
         os.makedirs(ckpt_dir, exist_ok=True)
-
     criterion = nn.CrossEntropyLoss()
     optimizer = Adam(net.parameters(), lr=lr)
     lr_sched = lr_scheduler.ReduceLROnPlateau(optimizer, patience=6, verbose=True)

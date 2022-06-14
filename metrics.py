@@ -21,17 +21,16 @@ class ELBO(nn.Module):
 
 
 def acc(outputs, targets):
-    return np.mean(outputs.cpu().numpy().argmax(axis=1) == targets.data.cpu().numpy())
+    return np.mean((outputs.cpu().numpy()>0.5).astype("float") == targets.data.cpu().numpy())
 
 def sensibility(outputs, targets):
-    return np.sum((outputs.cpu().numpy().argmax(axis=1) ==1) * (targets.data.cpu().numpy()==1))/np.sum(outputs.cpu().numpy().argmax(axis=1) ==1)
+    return np.sum((outputs.cpu().numpy()>0.5) * (targets.data.cpu().numpy()==1))/np.sum(outputs.cpu().numpy()>0.5)
 def specificity(outputs, targets):
-    return np.sum((outputs.cpu().numpy().argmax(axis=1) ==0) * (targets.data.cpu().numpy()==0))/np.sum(outputs.cpu().numpy().argmax(axis=1) ==0)
+    return np.sum((outputs.cpu().numpy()<=0.5) * (targets.data.cpu().numpy()==0))/np.sum(outputs.cpu().numpy()<=0.5)
 
 def rocauc(outputs, targets):
     from sklearn.metrics import roc_curve, auc
-    probs = torch.exp(outputs)
-    y= probs.cpu().numpy()[:,1]
+    y= outputs.cpu().numpy()
     fpr, tpr, thresholds = roc_curve(targets.data.cpu().numpy(), y)
     return(auc(fpr, tpr))
     
