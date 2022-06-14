@@ -45,7 +45,7 @@ def train_model(net, optimizer, criterion, trainloader, num_ens=1, beta_type=0.1
         for j in range(num_ens):
             net_out, _kl = net(inputs)
             kl += _kl
-            outputs[:, j] = F.sigmoid(net_out, dim=1)
+            outputs[:, j] = F.sigmoid(net_out)
         
         kl = kl / num_ens
         kl_list.append(kl.item())
