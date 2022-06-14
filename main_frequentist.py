@@ -40,7 +40,7 @@ def train_model(net, optimizer, criterion, train_loader):
     net.train()
     accs = []
     for data, target in train_loader:
-        data, target = data.to(device), target.to(device)
+        data, target = data.to(device), target.to(device).double
         optimizer.zero_grad()
         output = net(data)
         output = sigmoid(output).reshape(-1)
@@ -58,9 +58,9 @@ def validate_model(net, criterion, valid_loader):
     net.eval()
     accs = []
     for data, target in valid_loader:
-        data, target = data.to(device), target.to(device)
+        data, target = data.to(device), target.to(device).double
         output = net(data)
-        output = sigmoid(output)
+        output = sigmoid(output).reshape(-1)
         loss = criterion(output, target)
         valid_loss += loss.item()*data.size(0)
         accs.append(metrics.acc(output.detach(), target))
@@ -76,9 +76,9 @@ def testing(net, testloader):
     spec=[]
     sens=[]
     for data, target in testloader:
-        data, target = data.to(device), target.to(device)
+        data, target = data.to(device), target.to(device).double
         output = net(data)
-        output = sigmoid(output)
+        output = sigmoid(output).reshape(-1)
         auc.append( metrics.rocauc(output.detach(), target))
         accs.append(metrics.acc(output.detach(), target))
         spec.append(metrics.specificity(output.detach(), target))
