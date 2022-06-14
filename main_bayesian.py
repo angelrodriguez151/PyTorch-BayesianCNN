@@ -45,11 +45,11 @@ def train_model(net, optimizer, criterion, trainloader, num_ens=1, beta_type=0.1
         for j in range(num_ens):
             net_out, _kl = net(inputs)
             kl += _kl
-            outputs[:, j] = torch.sigmoid(net_out.reshape(-2))
+            outputs[:, j] = torch.sigmoid(net_out.reshape(-1))
         
         kl = kl / num_ens
         kl_list.append(kl.item())
-        log_outputs = outputs
+        log_outputs = outputs.reshape(-1)
         beta = metrics.get_beta(i-1, len(trainloader), beta_type, epoch, num_epochs)
         loss = criterion(log_outputs, labels, kl, beta)
         loss.backward()
@@ -71,9 +71,9 @@ def validate_model(net, criterion, validloader, num_ens=1, beta_type=0.1, epoch=
         for j in range(num_ens):
             net_out, _kl = net(inputs)
             kl += _kl
-            outputs[:, j] = torch.sigmoid(net_out.reshape(-2)).data
+            outputs[:, j] = torch.sigmoid(net_out.reshape(-1)).data
 
-        log_outputs = outputs
+        log_outputs = outputs.reshape(-1)
         beta = metrics.get_beta(i-1, len(validloader), beta_type, epoch, num_epochs)
         valid_loss += criterion(log_outputs, labels, kl, beta).item()
         accs.append(metrics.acc(log_outputs, labels))
