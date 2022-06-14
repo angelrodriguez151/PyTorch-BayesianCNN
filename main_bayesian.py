@@ -45,12 +45,12 @@ def train_model(net, optimizer, criterion, trainloader, num_ens=1, beta_type=0.1
         for j in range(num_ens):
             net_out, _kl = net(inputs)
             kl += _kl
-            outputs[:, j] = F.sigmoid(net_out)
+            outputs[:, j] = F.sigmoid(net_out.reshape(-1))
         
         kl = kl / num_ens
         kl_list.append(kl.item())
         print("ok")
-        log_outputs = outputs.reshape(-1)
+        log_outputs = outputs
         print("ok2")
         beta = metrics.get_beta(i-1, len(trainloader), beta_type, epoch, num_epochs)
         print("ok3")
