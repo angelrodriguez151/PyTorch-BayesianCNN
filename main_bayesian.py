@@ -46,7 +46,6 @@ def train_model(net, optimizer, criterion, trainloader, num_ens=1, beta_type=0.1
             net_out, _kl = net(inputs)
             kl += _kl
             outputs[:, :, j] = F.log_softmax(net_out, dim=1)
-            print(outputs[:, :, j])
         kl = kl / num_ens
         kl_list.append(kl.item())
         log_outputs = utils.logmeanexp(outputs, dim=2)
