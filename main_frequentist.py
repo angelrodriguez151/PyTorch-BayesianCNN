@@ -79,7 +79,7 @@ def testing(net, testloader):
         output = net(data)
         output = sigmoid(output).reshape(-1)
         accs.append(metrics.acc(output.detach(), target))
-        ou = np.concatenate(ou, output.detach.cpu().numpy())
+        ou = np.concatenate(ou, output.detach().cpu().numpy())
         la = np.concatenate(la, target.cpu().numpy())
     spec = (metrics.specificity(ou, la))
     sens = (metrics.sensibility(ou, la))
