@@ -86,9 +86,8 @@ def testing(net,  testloader, num_ens=1, beta_type=0.1, epoch=None, num_epochs=N
     from torch import nn
     valid_loss = 0.0
     accs = []
-    auc=[]
-    spec=[]
-    sens=[]
+    ou = np.array([])
+    la = np.array([])
     for i, (inputs, labels) in enumerate(testloader):
         inputs, labels = inputs.to(device), labels.to(device).float()
         outputs = torch.zeros(inputs.shape[0], num_ens).to(device)
@@ -100,12 +99,14 @@ def testing(net,  testloader, num_ens=1, beta_type=0.1, epoch=None, num_epochs=N
 
         log_outputs = outputs.reshape(-1)
         beta = metrics.get_beta(i-1, len(testloader), beta_type, epoch, num_epochs)
-        accs.append(metrics.acc(log_outputs.float(), labels))
-        spec.append(metrics.specificity(log_outputs.float(), labels))
-        sens.append(metrics.sensibility(log_outputs.float(), labels))
-        auc.append( metrics.rocauc(log_outputs.data.float(), labels))
+        accs.append(metrics.acc(log_outputs, labels))
+        ou = np.concatenate(ou, log_outputs.cpu().numpy())
+        la = np.concatenate(la, labels.cpu().numpy())
+    spec = (metrics.specificity(ou, la))
+    sens = (metrics.sensibility(ou, la))
+    auc = ( metrics.rocauc(ou, la))
 
-    return  np.mean(accs), np.mean(auc), np.mean(spec), np.mean(sens)
+    return  np.mean(accs), auc, spec, sens
 
 def run(dataset, net_type):
 

@@ -26,14 +26,14 @@ def acc(outputs, targets):
     return np.mean((outputs.cpu().numpy()>0.5).astype("float") == targets.data.cpu().numpy())
 
 def sensibility(outputs, targets):
-    return np.sum((outputs.cpu().numpy()>0.5) * (targets.data.cpu().numpy()==1))/np.sum(outputs.cpu().numpy()>0.5)
+    return np.sum((outputs>0.5) * (targets==1))/np.sum(outputs>0.5)
 def specificity(outputs, targets):
-    return np.sum((outputs.cpu().numpy()<=0.5) * (targets.data.cpu().numpy()==0))/np.sum(outputs.cpu().numpy()<=0.5)
+    return np.sum((outputs<=0.5) * (targets==0))/np.sum(outputs<=0.5)
 
 def rocauc(outputs, targets):
     from sklearn.metrics import roc_curve, auc
-    y= outputs.cpu().numpy()
-    fpr, tpr, thresholds = roc_curve(targets.data.cpu().numpy(), y)
+    y= outputs
+    fpr, tpr, thresholds = roc_curve(targets, y)
     return(auc(fpr, tpr))
     
 

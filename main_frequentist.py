@@ -72,18 +72,19 @@ def testing(net, testloader):
     sigmoid = nn.Sigmoid()
     net.eval()
     accs = []
-    auc = []
-    spec=[]
-    sens=[]
+    ou = np.array([])
+    la = np.array([])
     for data, target in testloader:
         data, target = data.to(device), target.to(device).float()
         output = net(data)
         output = sigmoid(output).reshape(-1)
-        auc.append( metrics.rocauc(output.detach().float(), target))
-        accs.append(metrics.acc(output.detach().float(), target))
-        spec.append(metrics.specificity(output.detach().float(), target))
-        sens.append(metrics.sensibility(output.detach().float(), target))
-    return  np.mean(accs), np.mean(auc), np.mean(spec), np.mean(sens)
+        accs.append(metrics.acc(output.detach(), target))
+        ou = np.concatenate(ou, output.detach.cpu().numpy())
+        la = np.concatenate(la, target.cpu().numpy())
+    spec = (metrics.specificity(ou, la))
+    sens = (metrics.sensibility(ou, la))
+    auc = ( metrics.rocauc(ou, la))
+    return  np.mean(accs), auc, spec, sens
     
 
 def run(dataset, net_type):
