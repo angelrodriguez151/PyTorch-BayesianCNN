@@ -54,7 +54,7 @@ def validate_model(net, criterion, valid_loader):
     net.eval()
     accs = []
     for data, target in valid_loader:
-        data, target = data.to(device), target.to(device).float()
+        data, target = data.to(device), target.to(device)
         output = net(data)
         loss = criterion(output, target)
         valid_loss += loss.item()*data.size(0)
@@ -70,7 +70,7 @@ def testing(net, testloader):
     ou = np.array([])
     la = np.array([])
     for data, target in testloader:
-        data, target = data.to(device), target.to(device).float()
+        data, target = data.to(device), target.to(device)
         output = net(data)
         accs.append(metrics.acc(output.detach(), target))
         ou = np.concatenate([ou, output.detach().cpu().numpy()])
