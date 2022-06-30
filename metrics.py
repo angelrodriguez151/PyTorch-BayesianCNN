@@ -23,22 +23,22 @@ class ELBO(nn.Module):
 
 
 def acc(outputs, targets):
-    return np.mean((outputs.cpu().numpy()[:,1]>0.5).astype("float") == targets.data.cpu().numpy())
+    return np.mean((outputs.cpu().numpy()[:,0]>0.5).astype("float") == targets.data.cpu().numpy())
 
 def sensibility(outputs, targets):
     if np.sum(outputs>0.5)==0:
         return 0
     else:
-        return np.sum((outputs[:,1]>0.5) * (targets==1))/np.sum(outputs[:,1]>0.5)
+        return np.sum((outputs[:,0]>0.5) * (targets==1))/np.sum(outputs[:,0]>0.5)
 def specificity(outputs, targets):
-    if np.sum(outputs[:,1]<=0.5)==0:
+    if np.sum(outputs[:,0]<=0.5)==0:
         return 0
     else:
-        return np.sum((outputs[:,1]<=0.5) * (targets==0))/np.sum(outputs[:,1]<=0.5)
+        return np.sum((outputs[:,0]<=0.5) * (targets==0))/np.sum(outputs[:,0]<=0.5)
 
 def rocauc(outputs, targets):
     from sklearn.metrics import roc_curve, auc
-    y= outputs[:,1]
+    y= outputs[:,0]
     fpr, tpr, thresholds = roc_curve(targets, y)
     return(auc(fpr, tpr))
     
