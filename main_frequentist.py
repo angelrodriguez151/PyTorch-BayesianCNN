@@ -33,24 +33,20 @@ def getModel(net_type, inputs, outputs):
     else:
         raise ValueError('Network should be either [LeNet / AlexNet / 3Conv3FC')
 
-
 def train_model(net, optimizer, criterion, train_loader):
     train_loss = 0.0
-    sigmoid = nn.Sigmoid()
     net.train()
     accs = []
     for data, target in train_loader:
-        data, target = data.to(device), target.to(device).float()
+        data, target = data.to(device), target.to(device)
         optimizer.zero_grad()
         output = net(data)
-        output = sigmoid(output).reshape(-1)
         loss = criterion(output, target)
         loss.backward()
         optimizer.step()
         train_loss += loss.item()*data.size(0)
         accs.append(metrics.acc(output.detach(), target))
     return train_loss, np.mean(accs)
-
 
 def validate_model(net, criterion, valid_loader):
     valid_loss = 0.0
@@ -60,7 +56,6 @@ def validate_model(net, criterion, valid_loader):
     for data, target in valid_loader:
         data, target = data.to(device), target.to(device).float()
         output = net(data)
-        output = sigmoid(output).reshape(-1)
         loss = criterion(output, target)
         valid_loss += loss.item()*data.size(0)
         accs.append(metrics.acc(output.detach(), target))
@@ -77,7 +72,6 @@ def testing(net, testloader):
     for data, target in testloader:
         data, target = data.to(device), target.to(device).float()
         output = net(data)
-        output = sigmoid(output).reshape(-1)
         accs.append(metrics.acc(output.detach(), target))
         ou = np.concatenate([ou, output.detach().cpu().numpy()])
         la = np.concatenate([la, target.cpu().numpy()])
@@ -106,7 +100,7 @@ def run(dataset, net_type):
 
     if not os.path.exists(ckpt_dir):
         os.makedirs(ckpt_dir, exist_ok=True)
-    criterion = nn.BCELoss()
+    criterion = nn.CrossEntropyLoss()
     optimizer = Adam(net.parameters(), lr=lr)
     lr_sched = lr_scheduler.ReduceLROnPlateau(optimizer, patience=6, verbose=True)
     valid_loss_min = np.Inf
