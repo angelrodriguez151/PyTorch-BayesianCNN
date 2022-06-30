@@ -67,8 +67,8 @@ def testing(net, testloader):
     sigmoid = nn.Sigmoid()
     net.eval()
     accs = []
-    ou = np.empty((0,0))
-    la = np.empty((0,0))
+    ou = np.empty((0,2))
+    la = np.array([])
     for data, target in testloader:
         data, target = data.to(device), target.to(device)
         output = net(data)

@@ -88,8 +88,8 @@ def testing(net,  testloader, num_ens=1, beta_type=0.1, epoch=None, num_epochs=N
     from torch import nn
     valid_loss = 0.0
     accs = []
-    ou = np.empty((0,0))
-    la = np.empty((0,0))
+    ou = np.empty((0,2))
+    la = np.array([])
     for i, (inputs, labels) in enumerate(testloader):
         inputs, labels = inputs.to(device), labels.to(device).float()
         outputs = torch.zeros(inputs.shape[0], num_ens).to(device)
