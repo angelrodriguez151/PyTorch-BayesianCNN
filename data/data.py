@@ -1,10 +1,12 @@
 import numpy as np
 import torch
 import torchvision
+import torchaudio
 from torch.utils.data import Dataset
 import torchvision.transforms as transforms
+import torchaudio.transforms as autransforms
 from torch.utils.data.sampler import SubsetRandomSampler
-
+from dataset import *
 
 class CustomDataset(Dataset):
     def __init__(self, data, labels, transform=None):
@@ -59,6 +61,14 @@ def getDataset(dataset):
         from torchvision.datasets import ImageFolder
         trainset = ImageFolder('/kaggle/input/chest-xray-pneumonia/chest_xray/train/', transform = transform_midataset)
         testset = ImageFolder('/kaggle/input/chest-xray-pneumonia/chest_xray/test/', transform = transform_midataset)
+        num_classes = 2
+        inputs = 1
+    elif(dataset == 'vozparkinson'):
+        from google.colab import drive
+        drive.mount('/content/drive')
+        from torchaudio.datasets import Audio
+        trainset = DataSetAudio('../content/drive/MyDrive/CNN/Parkinson/datatrain.csv', '../content/drive/MyDrive/CNN/Parkinson/train/' )
+        testset = ImageFolder('../content/drive/MyDrive/CNN/Parkinson/datatest.csv','../content/drive/MyDrive/CNN/Parkinson/test/' )
         num_classes = 2
         inputs = 1
     elif(dataset == 'CIFAR10'):
