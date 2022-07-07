@@ -1,12 +1,47 @@
 import numpy as np
-import torch
 import torchvision
 import torchaudio
 from torch.utils.data import Dataset
 import torchvision.transforms as transforms
 import torchaudio.transforms as autransforms
 from torch.utils.data.sampler import SubsetRandomSampler
-from dataset import *
+import torch
+from torch import Dataset
+import pandas as pd
+import os
+import random
+from scipy.io.wavfile import read
+
+def transformdata(x):
+    start = random.randint(0, len(x)-200000)
+    end = start + 200000
+    x = x[start:end]
+    x = torch.to_tensor(x)
+    x = x.reshape(200000, 1)
+    return x
+
+def transformlabel(x):
+    return torch.to_tensor(x)
+
+class DataSetAudio(Dataset):
+    def __init__(self, annotations_file, img_dir, transform=transformdata, target_transform=transformlabel):
+        self.img_labels = pd.read_csv(annotations_file, index_col= 0)
+        self.img_dir = img_dir
+        self.transform = transform
+        self.target_transform = target_transform
+
+    def __len__(self):
+        return len(self.img_labels)
+
+    def __getitem__(self, idx):
+        img_path = os.path.join(self.img_dir, self.img_labels.iloc[idx, 0])
+        image = read(img_path)
+        label = self.img_labels.iloc[idx, 1]
+        if self.transform:
+            image = self.transform(image)
+        if self.target_transform:
+            label = self.target_transform(label)
+        return image, label
 
 class CustomDataset(Dataset):
     def __init__(self, data, labels, transform=None):
