@@ -15,12 +15,12 @@ def transformdata(x):
     start = 25000
     end = 175000
     x = x[start:end]
-    x = torch.to_tensor(x)
+    x = torch.tensor(x)
     x = x.reshape(150000, 1)
     return x
 
 def transformlabel(x):
-    return torch.to_tensor(x)
+    return torch.tensor(x)
 
 class DataSetAudio(Dataset):
     def __init__(self, annotations_file, img_dir, transform=transformdata, target_transform=transformlabel):
