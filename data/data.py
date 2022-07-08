@@ -100,9 +100,8 @@ def getDataset(dataset):
     elif(dataset == 'vozparkinson'):
         from google.colab import drive
         drive.mount('/content/drive')
-        from torchaudio.datasets import Audio
         trainset = DataSetAudio('../content/drive/MyDrive/CNN/Parkinson/datatrain.csv', '../content/drive/MyDrive/CNN/Parkinson/train/' )
-        testset = ImageFolder('../content/drive/MyDrive/CNN/Parkinson/datatest.csv','../content/drive/MyDrive/CNN/Parkinson/test/' )
+        testset = DataSetAudio('../content/drive/MyDrive/CNN/Parkinson/datatest.csv','../content/drive/MyDrive/CNN/Parkinson/test/' )
         num_classes = 2
         inputs = 1
     elif(dataset == 'CIFAR10'):
