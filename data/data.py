@@ -13,11 +13,11 @@ import random
 from scipy.io.wavfile import read
 
 def transformdata(x):
-    start = random.randint(0, len(x)-200000)
-    end = start + 200000
+    start = 25000
+    end = 175000
     x = x[start:end]
     x = torch.to_tensor(x)
-    x = x.reshape(200000, 1)
+    x = x.reshape(150000, 1)
     return x
 
 def transformlabel(x):
