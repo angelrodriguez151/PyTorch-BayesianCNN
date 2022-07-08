@@ -15,7 +15,9 @@ def transformdata(x):
     start = 25000
     end = 175000
     x = x[start:end]
+    print(x)
     x = torch.tensor(x)
+    print(x)
     x = x.reshape(150000, 1)
     return x
 
@@ -34,8 +36,11 @@ class DataSetAudio(Dataset):
 
     def __getitem__(self, idx):
         img_path = os.path.join(self.img_dir, self.img_labels.iloc[idx, 0])
+        print(img_path)
         image = read(img_path)
+        print(image)
         label = self.img_labels.iloc[idx, 1]
+        print(label)
         if self.transform:
             image = self.transform(image)
         if self.target_transform:
