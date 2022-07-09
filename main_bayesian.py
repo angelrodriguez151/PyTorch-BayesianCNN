@@ -15,6 +15,7 @@ import config_bayesian as cfg
 from models.BayesianModels.Bayesianmymodel import BBBmymodel
 from models.BayesianModels.BayesianAlexNet import BBBAlexNet
 from models.BayesianModels.BayesianLeNet import BBBLeNet
+from models.BayesianModels.Bayesian1DConv import BBBConv1
 
 # CUDA settings
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -26,6 +27,8 @@ def getModel(net_type, inputs, outputs, priors, layer_type, activation_type):
         return BBBAlexNet(outputs, inputs, priors, layer_type, activation_type)
     elif (net_type == 'mymodel'):
         return BBBmymodel(outputs, inputs, priors, layer_type, activation_type)
+    elif (net_type == 'conv1'):
+        return BBBConv1(outputs, inputs, priors, layer_type, activation_type)
     else:
         raise ValueError('Network should be either [LeNet / AlexNet / 3Conv3FC')
 
