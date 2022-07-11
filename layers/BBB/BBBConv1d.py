@@ -10,7 +10,6 @@ from torch.nn import Parameter
 from metrics import calculate_kl as KL_DIV
 from ..misc import ModuleWrapper
 
-
 class BBBConv1d(ModuleWrapper):
     def __init__(self, in_channels, out_channels, kernel_size,
                  stride=1, padding=0, dilation=1, bias=True, priors=None):
