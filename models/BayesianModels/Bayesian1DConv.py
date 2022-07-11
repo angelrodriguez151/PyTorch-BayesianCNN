@@ -1,7 +1,7 @@
 import math
 import torch.nn as nn
-from layers import BBB_Linear, BBB_Conv1d
-from layers import BBB_LRT_Linear, BBB_LRT_Conv1d
+from layers import BBB_Linear, BBBConv1d
+from layers import BBB_LRT_Linear, BBBConv1d as Conv_lrt
 from layers import FlattenLayer, ModuleWrapper
 
 class BBBConv1(ModuleWrapper):
@@ -19,10 +19,10 @@ class BBBConv1(ModuleWrapper):
 
         if layer_type=='lrt':
             BBBLinear = BBB_LRT_Linear
-            BBBConv1d = BBB_LRT_Conv1d
+            BBBConv1d = Conv_lrt
         elif layer_type=='bbb':
             BBBLinear = BBB_Linear
-            BBBConv1d = BBB_Conv1d
+            BBBConv1d = BBBConv1d
         else:
             raise ValueError("Undefined layer_type")
         
