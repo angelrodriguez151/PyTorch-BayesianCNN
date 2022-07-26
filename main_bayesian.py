@@ -40,7 +40,8 @@ def train_model(net, optimizer, criterion, trainloader, num_ens=1, beta_type=0.1
     for i, (inputs, labels) in enumerate(trainloader, 1):
 
         optimizer.zero_grad()
-
+        print(inputs)
+        print(inputs.shape)
         inputs, labels = inputs.to(device), labels.to(device)
         outputs = torch.zeros(inputs.shape[0], net.num_classes, num_ens).to(device)
 
