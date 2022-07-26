@@ -148,6 +148,7 @@ def run(dataset, net_type):
     valaccuracy  = []
     import time
     t1=time.time()
+    print("starting to train")
     for epoch in range(n_epochs):  # loop over the dataset multiple times
 
         train_loss, train_acc, train_kl = train_model(net, optimizer, criterion, train_loader, num_ens=train_ens, beta_type=beta_type, epoch=epoch, num_epochs=n_epochs)

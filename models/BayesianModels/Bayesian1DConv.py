@@ -32,7 +32,7 @@ class BBBConv1(ModuleWrapper):
             self.act = nn.ReLU
         else:
             raise ValueError("Only softplus or relu supported")
-
+        
         self.conv1 = BBBConv1d(inputs, 8, 3, bias=True, priors=self.priors)
         self.act1 = self.act()        
         self.fc1 = BBBLinear(200, 100, bias=True, priors=self.priors)
