@@ -16,6 +16,9 @@ from models.NonBayesianModels.AlexNet import AlexNet
 from models.NonBayesianModels.LeNet import LeNet
 from models.NonBayesianModels.dropout import dropout
 from models.NonBayesianModels.nodropout import nodropout
+from models.NonBayesianModels.dropout1d import dropout1d
+from models.NonBayesianModels.nodropout1d import nodropout1d
+
 
 # CUDA settings
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
