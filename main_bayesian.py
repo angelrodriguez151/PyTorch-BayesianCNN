@@ -40,8 +40,7 @@ def train_model(net, optimizer, criterion, trainloader, num_ens=1, beta_type=0.1
     for i, (inputs, labels) in enumerate(trainloader, 1):
 
         optimizer.zero_grad()
-        print(inputs)
-        print(inputs.shape)
+
         inputs, labels = inputs.to(device), labels.to(device)
         outputs = torch.zeros(inputs.shape[0], net.num_classes, num_ens).to(device)
 
@@ -133,7 +132,7 @@ def run(dataset, net_type):
     trainset, testset, inputs, outputs = data.getDataset(dataset)
     train_loader, valid_loader, test_loader = data.getDataloader(
         trainset, testset, valid_size, batch_size, num_workers)
-    net = getModel(net_type, inputs, outputs, priors, layer_type, activation_type).to(device)
+    net = getModel(net_type, inputs, outputs, priors, layer_type, activation_type).float().to(device)
 
     ckpt_dir = f'checkpoints/{dataset}/bayesian'
     ckpt_name = f'checkpoints/{dataset}/bayesian/model_{net_type}_{layer_type}_{activation_type}.pt'

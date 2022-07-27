@@ -143,9 +143,9 @@ class BBBConv1d(ModuleWrapper):
             self.bias_sigma = bias_var = None
 
         act_mu = F.conv1d(
-            x.double(), self.W_mu, self.bias_mu, self.stride, self.padding, self.dilation, self.groups)
+            x, self.W_mu, self.bias_mu, self.stride, self.padding, self.dilation, self.groups)
         act_var = 1e-16 + F.conv1d(
-            x.double() ** 2, self.W_sigma ** 2, bias_var, self.stride, self.padding, self.dilation, self.groups)
+            x ** 2, self.W_sigma ** 2, bias_var, self.stride, self.padding, self.dilation, self.groups)
         act_std = torch.sqrt(act_var)
 
         if self.training or sample:
