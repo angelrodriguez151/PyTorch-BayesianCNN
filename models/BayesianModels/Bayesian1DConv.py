@@ -33,9 +33,9 @@ class BBBConv1(ModuleWrapper):
         else:
             raise ValueError("Only softplus or relu supported")
         
-        self.conv1 = BBBConv1d(inputs, 8, 3, bias=True, priors=self.priors)
+        self.conv1 = BBBConv1d(inputs, 3, 3, bias=True, priors=self.priors)
         self.act1 = self.act()
         self.flatten = nn.Flatten(1)
-        self.fc1 = BBBLinear(36, 100, bias=True, priors=self.priors)
+        self.fc1 = BBBLinear(894, 100, bias=True, priors=self.priors)
         self.act3 = self.act()
         self.fc2 = BBBLinear(100, outputs, bias=True, priors=self.priors)
