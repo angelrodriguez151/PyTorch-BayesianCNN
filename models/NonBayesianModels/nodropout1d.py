@@ -18,7 +18,7 @@ class nodropout1d(nn.Module):
         super(nodropout1d, self).__init__()
         self.features = nn.Sequential(
             
-            nn.Conv2d(inputs, 3, 3),
+            nn.Conv1d(inputs, 3, 3),
             nn.Softplus(),
             
             
