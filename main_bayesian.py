@@ -132,7 +132,7 @@ def run(dataset, net_type):
     trainset, testset, inputs, outputs = data.getDataset(dataset)
     train_loader, valid_loader, test_loader = data.getDataloader(
         trainset, testset, valid_size, batch_size, num_workers)
-    net = getModel(net_type, inputs, outputs, priors, layer_type, activation_type).float().to(device)
+    net = getModel(net_type, inputs, outputs, priors, layer_type, activation_type).to(device)
 
     ckpt_dir = f'checkpoints/{dataset}/bayesian'
     ckpt_name = f'checkpoints/{dataset}/bayesian/model_{net_type}_{layer_type}_{activation_type}.pt'
