@@ -33,6 +33,10 @@ def getModel(net_type, inputs, outputs):
         return dropout(outputs, inputs)
     elif (net_type == 'nodropout'):
         return  nodropout(outputs, inputs)
+    elif (net_type == 'dropout1d'):
+        return dropout1d(outputs, inputs)
+    elif (net_type == 'nodropout1d'):
+        return  nodropout1d(outputs, inputs)
     else:
         raise ValueError('Network should be either [LeNet / AlexNet / 3Conv3FC')
 
