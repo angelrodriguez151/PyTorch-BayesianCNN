@@ -12,9 +12,9 @@ def transformdata(x):
     start = 25000
     end = 175000
     x = x[start:end]
-    x=np.array([np.mean(x[i*500:(i+1)*500]) for i in range(300)])
+    x=np.array([np.mean(x[i*100:(i+1)*100]) for i in range(1500)])
     x = torch.tensor(x)
-    x = x.reshape(1, 300).float()
+    x = x.reshape(1, 1500).float()
     return x
 
 def transformlabel(x):
