@@ -15,6 +15,7 @@ def transformdata(x):
     x=np.array([np.mean(x[i*100:(i+1)*100]) for i in range(1500)])
     x = torch.tensor(x)
     x = x.reshape(1, 1500).float()
+    x= (x-x.min())/(x.max()-x.min())
     return x
 
 def transformlabel(x):
