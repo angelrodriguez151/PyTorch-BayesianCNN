@@ -1,14 +1,11 @@
 import numpy as np
 import torchvision
-import torchaudio
 from torch.utils.data import Dataset
 import torchvision.transforms as transforms
-import torchaudio.transforms as autransforms
 from torch.utils.data.sampler import SubsetRandomSampler
 import torch
 import pandas as pd
 import os
-import random
 from scipy.io.wavfile import read
 
 def transformdata(x):
@@ -103,6 +100,11 @@ def getDataset(dataset):
         drive.mount('/content/drive')
         trainset = DataSetAudio('/content/drive/MyDrive/CNN/Parkinson/datatrain.csv', '/content/drive/MyDrive/CNN/Parkinson/train/' )
         testset = DataSetAudio('/content/drive/MyDrive/CNN/Parkinson/datatest.csv','/content/drive/MyDrive/CNN/Parkinson/test/' )
+        num_classes = 2
+        inputs = 1
+    elif(dataset=='vozparkinson1'):
+        trainset = DataSetAudio('C:/Users/emman/Documents/Parkinson/datatrain.csv', 'C:/Users/emman/Documents/Parkinson/train/' )
+        testset = DataSetAudio('C:/Users/emman/Documents/Parkinson/datatest.csv','C:/Users/emman/Documents/Parkinson/test/' )
         num_classes = 2
         inputs = 1
     elif(dataset == 'CIFAR10'):

@@ -174,4 +174,4 @@ def run(dataset, net_type):
 
 if __name__ == '__main__':
 
-    run("conv1", "vozparkinson1")
+    run("vozparkinson1","conv1")
