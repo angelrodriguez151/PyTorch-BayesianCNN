@@ -21,15 +21,21 @@ class dropout1d(nn.Module):
             nn.Conv1d(inputs,3, 3),
             nn.Softplus(),
             nn.Dropout(),
+            nn.Conv1d(3,3, 3),
+            nn.Softplus(),
+            nn.Dropout(),
             
             
         )
         self.classifier = nn.Sequential(
             nn.Flatten(1),
-            nn.Linear(894,100),
+            nn.Linear(888,1000),
             nn.Softplus(),
             nn.Dropout(),
-            nn.Linear(100, outputs),
+            nn.Linear(1000,1000),
+            nn.Softplus(),
+            nn.Dropout(),
+            nn.Linear(1000, outputs),
     
         )
 
