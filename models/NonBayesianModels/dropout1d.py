@@ -21,15 +21,20 @@ class dropout1d(nn.Module):
             nn.Conv1d(inputs,16, 8),
             nn.Softplus(),
             nn.Dropout(),
+            nn.MaxPool1d(2),
             nn.Conv1d(16,16, 8),
             nn.Softplus(),
             nn.Dropout(),
+            nn.MaxPool1d(2),
             nn.Conv1d(16,16, 8),
             nn.Softplus(),
             nn.Dropout(),
+            nn.MaxPool1d(2),
             nn.Conv1d(16,16, 8),
             nn.Softplus(),
             nn.Dropout(),
+            nn.MaxPool1d(2)
+
             
             
             
