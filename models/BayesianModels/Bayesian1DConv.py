@@ -48,6 +48,6 @@ class BBBConv1(ModuleWrapper):
         self.act5 = self.act()
         self.fc3 = BBBLinear(1000, 1000, bias=True, priors=self.priors)
         self.act6 = self.act()
-        self.fc4 = BBBLinear(1000, 200, bias=True, priors=self.priors)
+        self.fc4 = BBBLinear(1000, 1000, bias=True, priors=self.priors)
         self.act7 = self.act()
-        self.fc3 = BBBLinear(200, outputs, bias=True, priors=self.priors)
+        self.fc4 = BBBLinear(1000, outputs, bias=True, priors=self.priors)
