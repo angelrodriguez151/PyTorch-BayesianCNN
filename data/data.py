@@ -37,6 +37,7 @@ class DataSetAudio(Dataset):
         label = self.img_labels.iloc[idx, 1]
         if self.transform:
             image = self.transform(image)
+            print(image)
         if self.target_transform:
             label = self.target_transform(label)
         return image, label
