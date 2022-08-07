@@ -45,7 +45,7 @@ class dropout(nn.Module):
             nn.Linear(256,32),
             nn.Softplus(),
             nn.Dropout(),
-            nn.Linear(16, outputs),
+            nn.Linear(32, outputs),
     
         )
 
