@@ -45,9 +45,7 @@ def train_model(net, optimizer, criterion, train_loader):
     net.train()
     accs = []
     for data, target in train_loader:
-        print("datatarget")
         data, target = data.to(device), target.to(device)
-        print("zerograd")
         optimizer.zero_grad()
         output = net(data)
         loss = criterion(output, target)

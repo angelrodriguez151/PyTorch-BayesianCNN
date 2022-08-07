@@ -9,12 +9,10 @@ import os
 from scipy.io.wavfile import read
 
 def transformdata(x):
-    print("cut")
     print("resize")
     x=np.array([np.mean(x[25000+i*100:25000+(i+1)*100]) for i in range(1500)])
     print("tensor")
     x = torch.tensor(x)
-    print("reshape")
     x = x.reshape(1, 1500).float()
     return x
 
@@ -32,13 +30,9 @@ class DataSetAudio(Dataset):
         return len(self.img_labels)
 
     def __getitem__(self, idx):
-        print("path")
         img_path = os.path.join(self.img_dir, self.img_labels.iloc[idx, 0])
-        print("read")
         image = read(img_path)[1]
-        print("label")
         label = self.img_labels.iloc[idx, 1]
-        print("transform")
         if self.transform:
             image = self.transform(image)
         
