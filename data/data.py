@@ -9,9 +9,9 @@ import os
 from scipy.io.wavfile import read
 
 def transformdata(x):
-    x=np.array([np.mean(x[25000+i*100:25000+(i+1)*100]) for i in range(1500)])
+    x=np.array([np.mean(x[25000+i*1000:25000+(i+1)*1000]) for i in range(150)])
     x = torch.tensor(x)
-    x = x.reshape(1, 1500).float()
+    x = x.reshape(1, 150).float()
     x = (x-x.min())/(x.max()-x.min())
     return x
 
