@@ -46,12 +46,19 @@ def train_model(net, optimizer, criterion, train_loader):
     accs = []
     for data, target in train_loader:
         data, target = data.to(device), target.to(device)
+        print("zerograd")
         optimizer.zero_grad()
+        print("output")
         output = net(data)
+        print("loss")
         loss = criterion(output, target)
+        print("backward")
         loss.backward()
+        print("step")
         optimizer.step()
+        print("train_loss")
         train_loss += loss.item()*data.size(0)
+        print("accuracy")
         accs.append(metrics.acc(output.detach(), target))
     return train_loss, np.mean(accs)
 
