@@ -9,7 +9,7 @@ priors={
 }
 
 n_epochs = 200
-lr_start = 0.0001
+lr_start = 0.001
 num_workers = 2
 valid_size = 0.3
 batch_size = 4
