@@ -97,12 +97,12 @@ def getDataset(dataset):
         testset = ImageFolder('/kaggle/input/chest-xray-pneumonia/chest_xray/test/', transform = transform_midataset)
         num_classes = 2
         inputs = 1
-    elif(dataset == 'spect'):
+    elif(dataset == 'q'):
         from google.colab import drive
         drive.mount('/content/drive')
         from torchvision.datasets import ImageFolder
-        trainset = ImageFolder('/content/drive/MyDrive/CNN/spect/train/', transform = transform_spect)
-        testset = ImageFolder('/content/drive/MyDrive/CNN/spect/test/', transform = transform_spect)
+        trainset = ImageFolder('/content/drive/MyDrive/CNN/Spect/train/', transform = transform_spect)
+        testset = ImageFolder('/content/drive/MyDrive/CNN/Spect/test/', transform = transform_spect)
         num_classes = 2
         inputs = 3
     elif(dataset == 'vozparkinson'):
