@@ -38,6 +38,7 @@ class DataSetAudio(Dataset):
         if self.transform:
             image = self.transform(image)
             if np.count_nonzero(~np.isnan(image))>0:
+                print(np.count_nonzero(~np.isnan(image)))
                 print(image)
                 print(img_path)
         if self.target_transform:
