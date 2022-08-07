@@ -9,12 +9,9 @@ import os
 from scipy.io.wavfile import read
 
 def transformdata(x):
-    start = 25000
-    end = 175000
     print("cut")
-    x = x[start:end]
     print("resize")
-    x=np.array([np.mean(x[i*100:(i+1)*100]) for i in range(1500)])
+    x=np.array([np.mean(x[25000+i*100:25000+(i+1)*100]) for i in range(1500)])
     print("tensor")
     x = torch.tensor(x)
     print("reshape")
