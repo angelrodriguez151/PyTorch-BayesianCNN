@@ -13,9 +13,7 @@ def transformdata(x):
     end = 175000
     x = x[start:end]
     x=np.array([np.mean(x[i*100:(i+1)*100]) for i in range(1500)])
-    if np.count_nonzero(~np.isnan(x))>0:
-        print(np.count_nonzero(~np.isnan(x)))
-        print(x)
+
     x = torch.tensor(x)
     x = x.reshape(1, 1500).float()
     return x
