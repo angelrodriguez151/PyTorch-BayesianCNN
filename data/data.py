@@ -38,7 +38,25 @@ class DataSetAudio(Dataset):
         if self.target_transform:
             label = self.target_transform(label)
         return image, label
+    
+class FeaturesSet(Dataset):
+    def __init__(self, data, transform=None):
+        self.data = pd.read_csv(data).iloc[:,4:]
+        self.labels = pd.read_csv(data).iloc[2,4:]
+        self.transform = transform
 
+    def __len__(self):
+        return len(self.labels)
+
+    def __getitem__(self, idx):
+        sample = self.data.[idx]
+        label = self.labels[idx]
+        if self.transform:
+            sample = self.transform(sample)
+
+        return sample, label
+    
+    
 class CustomDataset(Dataset):
     def __init__(self, data, labels, transform=None):
         self.data = data
@@ -97,6 +115,14 @@ def getDataset(dataset):
         testset = ImageFolder('/kaggle/input/chest-xray-pneumonia/chest_xray/test/', transform = transform_midataset)
         num_classes = 2
         inputs = 1
+
+        
+    if(dataset == 'features'):
+        trainset = FeaturesSet('/content/drive/MyDrive/CNN/featurestrain.csv', transform = transform_features)
+        testset = FeaturesSet('/content/drive/MyDrive/CNN/featurestest.csv', transform = transform_features)
+        num_classes = 2
+        inputs = 1
+        
     elif(dataset == 'spect'):
         from google.colab import drive
         drive.mount('/content/drive')
