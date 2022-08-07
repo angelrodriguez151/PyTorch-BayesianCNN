@@ -18,7 +18,7 @@ class dropout(nn.Module):
         super(dropout, self).__init__()
         self.features = nn.Sequential(
             
-            nn.Conv2d(inputs, 24, 3),
+            nn.Conv2d(inputs, 9, 4),
             nn.Softplus(),
             nn.MaxPool2d(6,6),
             nn.Dropout(),
