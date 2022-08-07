@@ -31,7 +31,7 @@ class AlexNet(nn.Module):
             nn.Dropout(p=0.5),
             nn.MaxPool2d(kernel_size=2, stride=2),
         )
-        self.classifier = nn.Linear(256, num_classes)
+        self.classifier = nn.Linear(15360, num_classes)
 
     def forward(self, x):
         x = self.features(x)

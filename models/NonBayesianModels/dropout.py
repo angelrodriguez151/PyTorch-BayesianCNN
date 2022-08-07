@@ -20,15 +20,15 @@ class dropout(nn.Module):
             
             nn.Conv2d(inputs, 6, 4),
             nn.Softplus(),
-            nn.MaxPool2d(4,4),
+            nn.MaxPool2d(2,2),
             nn.Dropout(),
             nn.Conv2d(6, 12, 4),
             nn.Softplus(),
-            nn.MaxPool2d(4,4),
+            nn.MaxPool2d(2,2),
             nn.Dropout(),
             nn.Conv2d(12, 24, 4),
             nn.Softplus(),
-            nn.MaxPool2d(4,4),
+            nn.MaxPool2d(2,2),
             nn.Dropout(),
             
             
@@ -36,16 +36,16 @@ class dropout(nn.Module):
         )
         self.classifier = nn.Sequential(
             nn.Flatten(1),
-            nn.Linear(17325,1024),
+            nn.Linear(1536,512),
             nn.Softplus(),
             nn.Dropout(),
-            nn.Linear(1024,256),
+            nn.Linear(512,128),
             nn.Softplus(),
             nn.Dropout(),
-            nn.Linear(256,32),
+            nn.Linear(128,16),
             nn.Softplus(),
             nn.Dropout(),
-            nn.Linear(32, outputs),
+            nn.Linear(16, outputs),
     
         )
 
