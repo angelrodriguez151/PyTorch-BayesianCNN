@@ -51,7 +51,7 @@ class FeaturesSet(Dataset):
     def __getitem__(self, idx):
         sample = self.data.iloc[idx]
         label = self.labels.iloc[idx]
-        sample, label = torch.tensor(sample.astype(float)), torch.tensor(label.astype(float))
+        sample, label = torch.tensor(sample.astype(float)).float(), torch.tensor(label.astype(float)).float()
 
         return sample, label
     
