@@ -41,18 +41,17 @@ class DataSetAudio(Dataset):
     
 class FeaturesSet(Dataset):
     def __init__(self, data, transform=None):
-        self.data = pd.read_csv(data).iloc[:,4:]
-        self.labels = pd.read_csv(data).iloc[2,4:]
+        self.data = pd.read_csv(data).iloc[:,6:]
+        self.labels = pd.read_csv(data).iloc[:,4]
         self.transform = transform
 
     def __len__(self):
         return len(self.labels)
 
     def __getitem__(self, idx):
-        sample = self.data.[idx]
-        label = self.labels[idx]
-        if self.transform:
-            sample = self.transform(sample)
+        sample = self.data.iloc[idx]
+        label = self.labels.iloc[idx]
+        sample, label = torch.tensor(sample.values), torch.tensor(label.values)
 
         return sample, label
     
@@ -118,8 +117,8 @@ def getDataset(dataset):
 
         
     if(dataset == 'features'):
-        trainset = FeaturesSet('/content/drive/MyDrive/CNN/featurestrain.csv', transform = transform_features)
-        testset = FeaturesSet('/content/drive/MyDrive/CNN/featurestest.csv', transform = transform_features)
+        trainset = FeaturesSet('/content/drive/MyDrive/CNN/featurestrain.csv', transform = None)
+        testset = FeaturesSet('/content/drive/MyDrive/CNN/featurestest.csv', transform = None)
         num_classes = 2
         inputs = 1
         
