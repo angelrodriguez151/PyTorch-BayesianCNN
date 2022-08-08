@@ -51,7 +51,7 @@ class FeaturesSet(Dataset):
     def __getitem__(self, idx):
         sample = self.data.iloc[idx]
         label = self.labels.iloc[idx]
-        sample, label = torch.tensor(sample.values), torch.tensor(label.values)
+        sample, label = torch.tensor(sample), torch.tensor(label)
 
         return sample, label
     
@@ -117,6 +117,8 @@ def getDataset(dataset):
 
         
     if(dataset == 'features'):
+        from google.colab import drive
+        drive.mount('/content/drive')
         trainset = FeaturesSet('/content/drive/MyDrive/CNN/featurestrain.csv', transform = None)
         testset = FeaturesSet('/content/drive/MyDrive/CNN/featurestest.csv', transform = None)
         num_classes = 2
