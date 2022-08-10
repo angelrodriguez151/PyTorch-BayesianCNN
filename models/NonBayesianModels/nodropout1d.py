@@ -16,22 +16,22 @@ class nodropout1d(nn.Module):
     """
     def __init__(self, outputs, inputs):
         super(nodropout1d, self).__init__()
-        self.features = nn.Sequential(
+        # self.features = nn.Sequential(
             
-            nn.Conv1d(inputs, 3, 3),
-            nn.Softplus(),
+        #     nn.Conv1d(inputs, 3, 3),
+        #     nn.Softplus(),
             
             
-        )
+        # )
         self.classifier = nn.Sequential(
-            nn.Flatten(1),
-            nn.Linear(894, 100),
+           # nn.Flatten(1),
+            nn.Linear(44, 512),
             nn.Softplus(),
-            nn.Linear(100, outputs),
+            nn.Linear(512, outputs),
     
         )
 
     def forward(self, x):
-        x = self.features(x)
+      #  x = self.features(x)
         x = self.classifier(x)
         return x

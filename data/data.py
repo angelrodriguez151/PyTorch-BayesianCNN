@@ -9,13 +9,10 @@ import os
 from scipy.io.wavfile import read
 
 def transformdata(x):
-    start = 25000
-    end = 175000
-    x = x[start:end]
-    x=np.array([np.mean(x[i*100:(i+1)*100]) for i in range(1500)])
+    x=np.array([np.mean(x[25000+i*1000:25000+(i+1)*1000]) for i in range(150)])
     x = torch.tensor(x)
-    x = x.reshape(1, 1500).float()
-    x= (x-x.min())/(x.max()-x.min())
+    x = x.reshape(1, 150).float()
+    x = (x-x.min())/(x.max()-x.min())
     return x
 
 def transformlabel(x):
@@ -37,10 +34,28 @@ class DataSetAudio(Dataset):
         label = self.img_labels.iloc[idx, 1]
         if self.transform:
             image = self.transform(image)
+        
         if self.target_transform:
             label = self.target_transform(label)
         return image, label
+    
+class FeaturesSet(Dataset):
+    def __init__(self, data, transform=None):
+        self.data = pd.read_csv(data).iloc[:,6:]
+        self.labels = pd.read_csv(data).iloc[:,4]
+        self.transform = transform
 
+    def __len__(self):
+        return len(self.labels)
+
+    def __getitem__(self, idx):
+        sample = self.data.iloc[idx]
+        label = self.labels.iloc[idx]
+        sample, label = torch.tensor(sample.astype(float)).float(), torch.tensor(label.astype(float)).long()
+
+        return sample, label
+    
+    
 class CustomDataset(Dataset):
     def __init__(self, data, labels, transform=None):
         self.data = data
@@ -90,12 +105,33 @@ def getDataset(dataset):
         transforms.ToTensor(),
         transforms.Grayscale(),
         ])
+    transform_spect = transforms.Compose([
+        transforms.ToTensor()
+        ])
     if(dataset == 'miset'):
         from torchvision.datasets import ImageFolder
         trainset = ImageFolder('/kaggle/input/chest-xray-pneumonia/chest_xray/train/', transform = transform_midataset)
         testset = ImageFolder('/kaggle/input/chest-xray-pneumonia/chest_xray/test/', transform = transform_midataset)
         num_classes = 2
         inputs = 1
+
+        
+    if(dataset == 'features'):
+        from google.colab import drive
+        drive.mount('/content/drive')
+        trainset = FeaturesSet('/content/drive/MyDrive/CNN/featurestrain.csv', transform = None)
+        testset = FeaturesSet('/content/drive/MyDrive/CNN/featurestest.csv', transform = None)
+        num_classes = 2
+        inputs = 1
+        
+    elif(dataset == 'spect'):
+        from google.colab import drive
+        drive.mount('/content/drive')
+        from torchvision.datasets import ImageFolder
+        trainset = ImageFolder('/content/drive/MyDrive/CNN/Spect/train/', transform = transform_spect)
+        testset = ImageFolder('/content/drive/MyDrive/CNN/Spect/test/', transform = transform_spect)
+        num_classes = 2
+        inputs = 3
     elif(dataset == 'vozparkinson'):
         from google.colab import drive
         drive.mount('/content/drive')

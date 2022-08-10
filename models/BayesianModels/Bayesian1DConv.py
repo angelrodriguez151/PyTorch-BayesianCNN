@@ -42,7 +42,7 @@ class BBBConv1(ModuleWrapper):
         self.conv3 = BBBConv1d(16, 16, 8, bias=True, priors=self.priors)
         self.act3 = self.act()
         self.flatten = nn.Flatten(1)
-        self.fc1 = BBBLinear(23664, 1000, bias=True, priors=self.priors)
+        self.fc1 = BBBLinear(2064, 1000, bias=True, priors=self.priors)
         self.act4 = self.act()
         self.fc2 = BBBLinear(1000, 1000, bias=True, priors=self.priors)
         self.act5 = self.act()
