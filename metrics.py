@@ -24,17 +24,33 @@ class ELBO(nn.Module):
 
 def acc(outputs, targets):
     return np.mean((outputs.cpu().numpy()[:,1]>0.5).astype("float") == targets.data.cpu().numpy())
-
-def sensibility(outputs, targets):
-    if np.sum(outputs>0.5)==0:
+def precision(outputs, targets):
+    if np.sum(outputs[:,1]>0.5)==0:
         return 0
     else:
-        return np.sum((outputs[:,1]>0.5) * (targets==1))/np.sum(outputs[:,1]>0.5)
-def specificity(outputs, targets):
+        return  np.sum((outputs[:,1]>0.5) * (targets==1))/sum(outputs[:,1]>0.5)
+def recall(outputs, targets):
     if np.sum(outputs[:,1]<=0.5)==0:
         return 0
+    return  np.sum((outputs[:,1]<=0.5) * (targets==0))/sum(outputs[:,1]<=0.5)
+
+def F1(outputs, targets):
+    p = precision(outputs, targets)
+    r= recall(outputs, targets)
+    if p!=0 and r!=0:
+        return 2/(1/p+1/r)
     else:
-        return np.sum((outputs[:,1]<=0.5) * (targets==0))/np.sum(outputs[:,1]<=0.5)
+        return 0
+def sensibility(outputs, targets):
+    if np.sum(targets)!=0:
+        return np.sum((outputs[:,1]>0.5) * (targets==1))/np.sum(targets)
+    else:
+        return 0 
+def specificity(outputs, targets):
+    if np.sum(targets==0)!=0:
+        return np.sum((outputs[:,1]<=0.5) * (targets==0))/np.sum(targets==0)
+    else:
+        return 0
 
 def rocauc(outputs, targets):
     from sklearn.metrics import roc_curve, auc
