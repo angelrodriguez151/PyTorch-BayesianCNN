@@ -141,8 +141,8 @@ def run(dataset, net_type):
             torch.save(net.state_dict(), ckpt_name)
             valid_loss_min = valid_loss
     t2=time.time()-t1
-    accs, auc, spec, sens = testing(net, test_loader)
-    return (t2,accs, auc, spec, sens), trainaccuracy, valaccuracy
+    accs,precision,recall,f1, auc, spec, sens = testing(net, test_loader)
+    return (t2, accs,precision,recall,f1, auc, spec, sens), trainaccuracy, valaccuracy
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description = "PyTorch Frequentist Model Training")

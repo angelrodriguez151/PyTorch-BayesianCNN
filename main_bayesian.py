@@ -171,9 +171,9 @@ def run(dataset, net_type):
                 valid_loss_max, valid_loss))
              torch.save(net.state_dict(), ckpt_name) 
              valid_loss_max = valid_loss
-    accs, auc, spec, sens = testing(net, test_loader)
+    accs,precision,recall,f1, auc, spec, sens = testing(net, test_loader)
     t2= time.time()-t1       
-    return (t2, accs, auc, spec, sens), trainaccuracy, valaccuracy
+    return (t2, accs,precision,recall,f1, auc, spec, sens), trainaccuracy, valaccuracy
 
 
 
