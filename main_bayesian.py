@@ -43,12 +43,11 @@ def train_model(net, optimizer, criterion, trainloader, num_ens=1, beta_type=0.1
 
         inputs, labels = inputs.to(device), labels.to(device)
         outputs = torch.zeros(inputs.shape[0], net.num_classes, num_ens).to(device)
-
         kl = 0.0
         for j in range(num_ens):
             net_out, _kl = net(inputs)
             kl += _kl
-            outputs[:, :, j] = F.log_softmax(net_out, dim=1) 
+            outputs[:, :, j] = F.log_softmax(net_out, dim=1)
         
         kl = kl / num_ens
         kl_list.append(kl.item())
@@ -58,7 +57,6 @@ def train_model(net, optimizer, criterion, trainloader, num_ens=1, beta_type=0.1
         loss = criterion(log_outputs, labels, kl, beta)
         loss.backward()
         optimizer.step()
-
         accs.append(metrics.acc(log_outputs.data, labels))
         training_loss += loss.cpu().data.numpy()
     return training_loss/len(trainloader), np.mean(accs), np.mean(kl_list)

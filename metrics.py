@@ -21,9 +21,9 @@ class ELBO(nn.Module):
 #         return start_value
 #     return start_value*float(total_epochs-epoch_num)/float(total_epochs-decay_start)
 
-
 def acc(outputs, targets):
-    return np.mean((outputs.cpu().numpy()[:,1]>0.5).astype("float") == targets.data.cpu().numpy())
+    return np.mean(outputs.cpu().numpy().argmax(axis=1).astype("float") == targets.data.cpu().numpy())
+
 def precision(outputs, targets):
     if np.sum(outputs[:,1]>0.5)==0:
         return 0
