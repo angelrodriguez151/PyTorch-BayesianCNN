@@ -18,34 +18,21 @@ class dropout(nn.Module):
         super(dropout, self).__init__()
         self.features = nn.Sequential(
             
-            nn.Conv2d(inputs, 6, 4),
+            nn.Conv2d(inputs, 24, 3),
             nn.Softplus(),
-            nn.MaxPool2d(2,2),
+   
+            nn.MaxPool2d(6,6),
             nn.Dropout(),
-            nn.Conv2d(6, 12, 4),
-            nn.Softplus(),
-            nn.MaxPool2d(2,2),
-            nn.Dropout(),
-            nn.Conv2d(12, 24, 4),
-            nn.Softplus(),
-            nn.MaxPool2d(4,4),
-            nn.Dropout(),
-            
             
             
         )
         self.classifier = nn.Sequential(
             nn.Flatten(1),
-            nn.Linear(5472,1024),
+            nn.Linear(2400, 1024),
             nn.Softplus(),
             nn.Dropout(),
-            nn.Linear(1024,256),
-            nn.Softplus(),
-            nn.Dropout(),
-            nn.Linear(256,32),
-            nn.Softplus(),
-            nn.Dropout(),
-            nn.Linear(32, outputs),
+            nn.Linear(1024, outputs),
+            
     
         )
 
