@@ -84,9 +84,10 @@ def testing(net, testloader):
         
         ou = np.concatenate([ou, output.detach().cpu().numpy()])
         la = np.concatenate([la, target.cpu().numpy()])
-    precision=(metrics.precision(output.detach(), target))
-    recall=(metrics.recall(output.detach(), target))
-    f1=(metrics.F1(output.detach(), target))    
+        
+    precision=(metrics.precision(ou, la))
+    recall=(metrics.recall(ou, la))
+    f1=(metrics.F1(ou, la))    
     spec = (metrics.specificity(ou, la))
     sens = (metrics.sensibility(ou, la))
     auc = ( metrics.rocauc(ou, la))
