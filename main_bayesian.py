@@ -105,7 +105,7 @@ def testing(net,  testloader, num_ens=1, beta_type=0.1, epoch=None, num_epochs=N
         beta = metrics.get_beta(i-1, len(testloader), beta_type, epoch, num_epochs)
         accs.append(metrics.acc(log_outputs, labels))
 
-        ou = np.concatenate([ou, log_outputs.cpu().numpy()])
+        ou = np.concatenate([ou, np.exp(log_outputs.cpu().numpy())])
         la = np.concatenate([la, labels.cpu().numpy()])
         
     precision=(metrics.precision(ou, la))
