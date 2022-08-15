@@ -117,13 +117,52 @@ def testing(net,  testloader, num_ens=1, beta_type=0.1, epoch=None, num_epochs=N
 
     return  np.mean(accs),precision,recall,f1 , auc, spec, sens
 
+def tunning_1(dataset, net_type):
+    import numpy as np
+    sigma_list= [0.0001, 0.001, 0.01, 0.05, 0.1, 0.5, 1, 5, 10]
+    values=[]
+    for priorsigma in sigma_list :
+        cfg.priors["prior_sigma"]= priorsigma
+        a, b, c =  run(dataset, net_type)
+        print(a)
+        values.append(a[3])
+    cfg.priors["prior_sigma"] = sigma_list[np.argmax(np.array(values))]
+    values=[]
+
+    for posteriormu in sigma_list :
+        cfg.priors["posterior_mu_intial"]= (0,priorsigma)
+        a, b, c =  run(dataset, net_type)
+        print(a)
+        values.append(a[3])
+    cfg.priors["posterior_mu_intial"] = (0,sigma_list[np.argmax(np.array(values))])
+
+    values=[]
+    for posteriorsigma1 in sigma_list:
+        cfg.priors["posterior_rho_initial"] = (cfg.priors["posterior_rho_initial"][0], posteriorsigma1)
+        a, b, c  = run(dataset, net_type)
+        print(a)
+        values.append(a[3])
+    cfg.priors["posterior_rho_initial"] =(cfg.priors["posterior_rho_initial"][0], sigma_list[np.argmax(np.array(values))])
+
+    values=[]
+    lista2=[-7,-6,-5,-4,-3,-2,-1,0,1]
+    for posteriorsigma2 in lista2:
+        cfg.priors["posterior_rho_initial"] =(posteriorsigma2, cfg.priors["posterior_rho_initial"][1])
+        a, b, c = run(dataset, net_type)
+        print(a)
+        values.append(a[3])
+    cfg.priors["posterior_rho_initial"] = (lista2[np.argmax(np.array(values))], cfg.priors["posterior_rho_initial"][1])
+
+    
+    
+    
 def run(dataset, net_type):
 
     # Hyper Parameter settings
     layer_type = cfg.layer_type
     activation_type = cfg.activation_type
     priors = cfg.priors
-
+    print(priors)
     train_ens = cfg.train_ens
     valid_ens = cfg.valid_ens
     n_epochs = cfg.n_epochs
