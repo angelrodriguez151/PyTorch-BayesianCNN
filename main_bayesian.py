@@ -107,7 +107,6 @@ def testing(net,  testloader, num_ens=1, beta_type=0.1, epoch=None, num_epochs=N
 
         ou = np.concatenate([ou, np.exp(log_outputs.cpu().numpy())])
         la = np.concatenate([la, labels.cpu().numpy()])
-        print(ou, la)
         
     precision=(metrics.precision(ou, la))
     recall=(metrics.recall(ou, la))
