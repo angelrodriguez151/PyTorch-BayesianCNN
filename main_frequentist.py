@@ -15,7 +15,11 @@ import config_frequentist as cfg
 from models.NonBayesianModels.AlexNet import AlexNet
 from models.NonBayesianModels.LeNet import LeNet
 from models.NonBayesianModels.dropout import dropout
+from models.NonBayesianModels.dropout import dropout1
+
 from models.NonBayesianModels.nodropout import nodropout
+from models.NonBayesianModels.nodropout import nodropout1
+
 from models.NonBayesianModels.dropout1d import dropout1d
 from models.NonBayesianModels.nodropout1d import nodropout1d
 
@@ -31,8 +35,12 @@ def getModel(net_type, inputs, outputs):
         return AlexNet(outputs, inputs)
     elif (net_type == 'dropout'):
         return dropout(outputs, inputs)
+    elif (net_type == 'dropout1'):
+        return dropout1(outputs, inputs)
     elif (net_type == 'nodropout'):
         return  nodropout(outputs, inputs)
+    elif (net_type == 'nodropout1'):
+        return  nodropout1(outputs, inputs)
     elif (net_type == 'dropout1d'):
         return dropout1d(outputs, inputs)
     elif (net_type == 'nodropout1d'):

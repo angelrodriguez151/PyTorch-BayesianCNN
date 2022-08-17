@@ -40,3 +40,35 @@ class dropout(nn.Module):
         x = self.features(x)
         x = self.classifier(x)
         return x
+
+class dropout1(nn.Module):
+    """
+    To train on CIFAR-10:
+    https://arxiv.org/pdf/1207.0580.pdf
+    """
+    def __init__(self, outputs, inputs):
+        super(dropout, self).__init__()
+        self.features = nn.Sequential(
+            
+            nn.Conv2d(inputs, 24, 3),
+            nn.Softplus(),
+   
+            nn.MaxPool2d(6,6),
+            nn.Dropout(),
+            
+            
+        )
+        self.classifier = nn.Sequential(
+            nn.Flatten(1),
+            nn.Linear(2400, 1024),
+            nn.Softplus(),
+            nn.Dropout(),
+            nn.Linear(1024, outputs),
+            
+    
+        )
+
+    def forward(self, x):
+        x = self.features(x)
+        x = self.classifier(x)
+        return x
