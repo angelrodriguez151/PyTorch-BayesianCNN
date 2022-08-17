@@ -27,10 +27,10 @@ class dropout1d(nn.Module):
         )
         self.classifier = nn.Sequential(
             nn.Flatten(1),
-            nn.Linear(68,20),
+            nn.Linear(68,32),
             nn.Softplus(),
             nn.Dropout(),
-            nn.Linear(20, outputs),
+            nn.Linear(32, outputs),
     
         )
 

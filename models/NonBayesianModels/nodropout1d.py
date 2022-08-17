@@ -18,16 +18,18 @@ class nodropout1d(nn.Module):
         super(nodropout1d, self).__init__()
         self.features = nn.Sequential(
             
-             nn.Conv1d(inputs, 3, 3),
+            nn.Conv1d(inputs, 4, 8),
             nn.Softplus(),
+            nn.MaxPool1d(8),
+
             
             
          )
         self.classifier = nn.Sequential(
             nn.Flatten(1),
-            nn.Linear(44, 512),
+            nn.Linear(68, 32),
             nn.Softplus(),
-            nn.Linear(512, outputs),
+            nn.Linear(32, outputs),
     
         )
 
