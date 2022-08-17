@@ -54,7 +54,7 @@ class nodropout1(nn.Module):
         )
         self.classifier = nn.Sequential(
             nn.Flatten(1),
-            nn.Linear(2400, 1024),
+            nn.Linear(46200, 1024),
             nn.Softplus(),
             nn.Linear(1024, outputs),
     
