@@ -51,7 +51,7 @@ class BBBmymodel1(ModuleWrapper):
     and 3 FC layers with Bayesian layers.
     """
     def __init__(self, outputs, inputs, priors, layer_type='lrt', activation_type='softplus'):
-        super(BBBmymodel, self).__init__()
+        super(BBBmymodel1, self).__init__()
 
         self.num_classes = outputs
         self.layer_type = layer_type

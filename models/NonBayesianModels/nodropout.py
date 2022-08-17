@@ -43,7 +43,7 @@ class nodropout1(nn.Module):
     https://arxiv.org/pdf/1207.0580.pdf
     """
     def __init__(self, outputs, inputs):
-        super(nodropout, self).__init__()
+        super(nodropout1, self).__init__()
         self.features = nn.Sequential(
             
             nn.Conv2d(inputs, 24, 3),

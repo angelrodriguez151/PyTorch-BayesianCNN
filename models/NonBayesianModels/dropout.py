@@ -15,7 +15,7 @@ class dropout(nn.Module):
     https://arxiv.org/pdf/1207.0580.pdf
     """
     def __init__(self, outputs, inputs):
-        super(dropout, self).__init__()
+        super(dropout1, self).__init__()
         self.features = nn.Sequential(
             
             nn.Conv2d(inputs, 24, 3),
