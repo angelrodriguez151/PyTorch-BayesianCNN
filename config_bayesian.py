@@ -8,7 +8,7 @@ priors={
     'posterior_rho_initial': (-5, 0.5),  # (mean, std) normal_
 }
 
-n_epochs = 50
+n_epochs = 100
 lr_start = 0.0001
 num_workers = 2
 valid_size = 0.2
