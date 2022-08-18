@@ -33,15 +33,23 @@ class BBBmymodel(ModuleWrapper):
         else:
             raise ValueError("Only softplus or relu supported")
 
-        self.conv1 = BBBConv2d(inputs, 24, 3, bias=True, priors=self.priors)
+        self.conv1 = BBBConv2d(inputs, 8, 3, bias=True, priors=self.priors)
         self.act1 = self.act()
-        self.pool1 = nn.MaxPool2d(6,6)
+        self.pool1 = nn.MaxPool2d(3,3)
+        self.conv2 = BBBConv2d(8, 16, 3, bias=True, priors=self.priors)
+        self.act2 = self.act()
+        self.pool2 = nn.MaxPool2d(3,3)
+        self.conv3 = BBBConv2d(16, 32, 3, bias=True, priors=self.priors)
+        self.act3 = self.act()
+        self.pool3 = nn.MaxPool2d(3,3)
     
         self.flatten = nn.Flatten(1)
         
-        self.fc1 = BBBLinear(2400, 1024, bias=True, priors=self.priors)
-        self.act3 = self.act()
-        self.fc2 = BBBLinear(1024, outputs, bias=True, priors=self.priors)
+        self.fc1 = BBBLinear(2400, 512, bias=True, priors=self.priors)
+        self.act4 = self.act()
+        self.fc2 = BBBLinear(512, 32, bias=True, priors=self.priors)
+        self.act5 = self.act()
+        self.fc3 = BBBLinear(32, outputs, bias=True, priors=self.priors)
         
 
 class BBBmymodel1(ModuleWrapper):
