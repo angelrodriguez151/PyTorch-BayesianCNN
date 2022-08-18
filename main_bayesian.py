@@ -122,7 +122,7 @@ def testing(net,  testloader, num_ens=1, beta_type=0.1, epoch=None, num_epochs=N
 
 def tunning_1(dataset, net_type):
     import numpy as np
-    sigma_list= [0.0001, 0.001, 0.01, 0.05, 0.1, 0.5, 1, 5, 10]
+    sigma_list= [0.0001, 0.001, 0.01, 0.05, 0.1, 0.5, 1, 5]
     values=[]
     for priorsigma in sigma_list :
         cfg.priors["prior_sigma"]= priorsigma
@@ -148,7 +148,7 @@ def tunning_1(dataset, net_type):
     cfg.priors["posterior_rho_initial"] =(cfg.priors["posterior_rho_initial"][0], sigma_list[np.argmax(np.array(values))])
 
     values=[]
-    lista2=[-7,-6,-5,-4,-3,-2,-1,0,1]
+    lista2=[-7,-6,-5,-4,-3,-2,-1]
     for posteriorsigma2 in lista2:
         cfg.priors["posterior_rho_initial"] =(posteriorsigma2, cfg.priors["posterior_rho_initial"][1])
         a, b, c = run(dataset, net_type)
