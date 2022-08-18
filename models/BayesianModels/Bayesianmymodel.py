@@ -35,13 +35,13 @@ class BBBmymodel(ModuleWrapper):
 
         self.conv1 = BBBConv2d(inputs, 8, 3, bias=True, priors=self.priors)
         self.act1 = self.act()
-        self.pool1 = nn.MaxPool2d(3,3)
+        self.pool1 = nn.MaxPool2d(2,2)
         self.conv2 = BBBConv2d(8, 16, 3, bias=True, priors=self.priors)
         self.act2 = self.act()
-        self.pool2 = nn.MaxPool2d(3,3)
+        self.pool2 = nn.MaxPool2d(2,2)
         self.conv3 = BBBConv2d(16, 32, 3, bias=True, priors=self.priors)
         self.act3 = self.act()
-        self.pool3 = nn.MaxPool2d(3,3)
+        self.pool3 = nn.MaxPool2d(2,2)
     
         self.flatten = nn.Flatten(1)
         
