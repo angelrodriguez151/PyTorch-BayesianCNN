@@ -123,21 +123,21 @@ def testing(net,  testloader, num_ens=1, beta_type=0.1, epoch=None, num_epochs=N
 def tunning_1(dataset, net_type):
     import numpy as np
     sigma_list= [0.0001, 0.001, 0.01, 0.05, 0.1, 0.5, 1, 5]
-    values=[]
-    for priorsigma in sigma_list :
-        cfg.priors["prior_sigma"]= priorsigma
-        a, b, c =  run(dataset, net_type)
-        print(a)
-        values.append(a[3])
-    cfg.priors["prior_sigma"] = sigma_list[np.argmax(np.array(values))]
+    # values=[]
+    # for priorsigma in sigma_list :
+    #     cfg.priors["prior_sigma"]= priorsigma
+    #     a, b, c =  run(dataset, net_type)
+    #     print(a)
+    #     values.append(a[3])
+    # cfg.priors["prior_sigma"] = sigma_list[np.argmax(np.array(values))]
     values=[]
 
     for posteriormu in sigma_list :
-        cfg.priors["posterior_mu_intial"]= (0,priorsigma)
+        cfg.priors["posterior_mu_initial"]= (0,posteriormu)
         a, b, c =  run(dataset, net_type)
         print(a)
         values.append(a[3])
-    cfg.priors["posterior_mu_intial"] = (0,sigma_list[np.argmax(np.array(values))])
+    cfg.priors["posterior_mu_initial"] = (0,sigma_list[np.argmax(np.array(values))])
 
     values=[]
     for posteriorsigma1 in sigma_list:
