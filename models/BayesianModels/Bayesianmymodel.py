@@ -76,6 +76,10 @@ class BBBmymodel1(ModuleWrapper):
         self.conv1 = BBBConv2d(inputs, 24, 3, bias=True, priors=self.priors)
         self.act1 = self.act()
         self.pool1 = nn.MaxPool2d(6,6)
+        self.conv2 = BBBConv2d(24, 48, 3, bias=True, priors=self.priors)
+        self.act2 = self.act()
+        self.pool2 = nn.MaxPool2d(6,6)
+    
     
         self.flatten = nn.Flatten(1)
         
