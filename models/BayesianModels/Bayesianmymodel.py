@@ -45,7 +45,7 @@ class BBBmymodel(ModuleWrapper):
     
         self.flatten = nn.Flatten(1)
         
-        self.fc1 = BBBLinear(2400, 512, bias=True, priors=self.priors)
+        self.fc1 = BBBLinear(1152, 512, bias=True, priors=self.priors)
         self.act4 = self.act()
         self.fc2 = BBBLinear(512, 32, bias=True, priors=self.priors)
         self.act5 = self.act()
