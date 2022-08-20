@@ -159,7 +159,7 @@ def tunning_1(dataset, net_type):
     
     
     
-def run(dataset, net_type):
+def run(dataset, net_type,n_epochs = cfg.n_epochs):
 
     # Hyper Parameter settings
     layer_type = cfg.layer_type
@@ -168,7 +168,7 @@ def run(dataset, net_type):
     print(priors)
     train_ens = cfg.train_ens
     valid_ens = cfg.valid_ens
-    n_epochs = cfg.n_epochs
+    
     lr_start = cfg.lr_start
     num_workers = cfg.num_workers
     valid_size = cfg.valid_size

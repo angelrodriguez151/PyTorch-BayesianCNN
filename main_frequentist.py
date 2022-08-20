@@ -102,10 +102,9 @@ def testing(net, testloader):
     return  np.mean(accs),precision,recall,f1 , auc, spec, sens
     
 
-def run(dataset, net_type):
+def run(dataset, net_type, n_epochs=cfg.n_epochs):
 
     # Hyper Parameter settings
-    n_epochs = cfg.n_epochs
     lr = cfg.lr
     num_workers = cfg.num_workers
     valid_size = cfg.valid_size
