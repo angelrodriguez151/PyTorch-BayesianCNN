@@ -63,11 +63,11 @@ class dropout1(nn.Module):
             nn.Conv2d(inputs, 24, 3),
             nn.Softplus(),
             nn.MaxPool2d(6,6),
-            
+            nn.Dropout(0.2),
             nn.Conv2d(24, 48, 3),
             nn.Softplus(),
             nn.MaxPool2d(6,6),
-
+            nn.Dropout(0.2),
             
             
         )
@@ -75,8 +75,10 @@ class dropout1(nn.Module):
             nn.Flatten(1),
             nn.Linear(1920, 512),
             nn.Softplus(),
+            nn.Dropout(0.2),
             nn.Linear(512, 32),
             nn.Softplus(),
+            nn.Dropout(0.2),
             nn.Linear(32, outputs),
     
         )
