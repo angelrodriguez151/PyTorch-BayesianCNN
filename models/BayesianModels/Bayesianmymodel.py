@@ -94,4 +94,4 @@ class BBBmymodel1(ModuleWrapper):
         self.fc1 = BBBLinear(1920, 1024, bias=True, priors=self.priors)
         self.act3 = self.act()
         
-        self.fc2 = BBBLinear(1024, 1, bias=True, priors=self.priors)
+        self.fc2 = BBBLinear(1024, outputs, bias=True, priors=self.priors)
