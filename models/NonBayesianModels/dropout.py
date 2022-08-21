@@ -18,21 +18,31 @@ class dropout(nn.Module):
         super(dropout, self).__init__()
         self.features = nn.Sequential(
             
-            nn.Conv2d(inputs, 24, 3),
+            nn.Conv2d(inputs, 8, 3),
             nn.Softplus(),
-   
-            nn.MaxPool2d(6,6),
-            nn.Dropout(),
+            nn.MaxPool2d(2,2),
+            nn.Dropout(0.2),
             
+            nn.Conv2d(8, 16, 3),
+            nn.Softplus(),
+            nn.MaxPool2d(2,2),
+            nn.Dropout(0.2),
+            
+            nn.Conv2d(16, 32, 3),
+            nn.Softplus(),
+            nn.MaxPool2d(2,2),
+            nn.Dropout(0.2),
             
         )
         self.classifier = nn.Sequential(
             nn.Flatten(1),
-            nn.Linear(2400, 1024),
+            nn.Linear(1152, 512),
             nn.Softplus(),
-            nn.Dropout(),
-            nn.Linear(1024, outputs),
-            
+            nn.Dropout(0.2),
+            nn.Linear(512, 32),
+            nn.Softplus(),
+            nn.Dropout(0.2),
+            nn.Linear(32, outputs),
     
         )
 
@@ -52,22 +62,25 @@ class dropout1(nn.Module):
             
             nn.Conv2d(inputs, 24, 3),
             nn.Softplus(),
-   
             nn.MaxPool2d(6,6),
-            nn.Dropout(),
+            
+            nn.Conv2d(24, 48, 3),
+            nn.Softplus(),
+            nn.MaxPool2d(6,6),
+
             
             
         )
         self.classifier = nn.Sequential(
             nn.Flatten(1),
-            nn.Linear(46200, 1024),
+            nn.Linear(1920, 512),
             nn.Softplus(),
-            nn.Dropout(),
-            nn.Linear(1024, outputs),
-            
+            nn.Linear(512, 32),
+            nn.Softplus(),
+            nn.Linear(32, outputs),
     
         )
-
+      
     def forward(self, x):
         x = self.features(x)
         x = self.classifier(x)
