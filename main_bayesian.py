@@ -92,6 +92,7 @@ def validate_model(net, criterion, validloader, num_ens=1, beta_type=0.1, epoch=
 
 def testing(net,  testloader, num_ens=1, beta_type=0.1, epoch=None, num_epochs=None):
     """Calculate accuracy and mean roc-auc"""
+    
     from torch import nn
     valid_loss = 0.0
     accs = []
@@ -214,6 +215,9 @@ def run(dataset, net_type,n_epochs = cfg.n_epochs):
                 valid_loss_max, valid_loss))
              torch.save(net.state_dict(), ckpt_name) 
              valid_loss_max = valid_loss
+    print("Testing best model yet")
+    net = getModel(net_type, inputs, outputs, priors, layer_type, activation_type).to(device)
+    net = torch.load(ckpt_name)
     accs,precision,recall,f1, auc, spec, sens = testing(net, test_loader)
     t2= time.time()-t1       
     return (t2, accs,precision,recall,f1, auc, spec, sens), trainaccuracy, valaccuracy
