@@ -116,13 +116,13 @@ class BBBmymodel1(ModuleWrapper):
     
         self.flatten = nn.Flatten(1)
         
-        self.fc1 = BBBLinear(1920, 256, bias=True, priors=self.priors)
+        self.fc1 = BBBLinear(4096, 1024, bias=True, priors=self.priors)
         self.act6 = self.act()
-        self.fc2 = BBBLinear(256, 128, bias=True, priors=self.priors)
+        self.fc2 = BBBLinear(1024, 512, bias=True, priors=self.priors)
         self.act7 = self.act()
-        self.fc3 = BBBLinear(128, 64, bias=True, priors=self.priors)
+        self.fc3 = BBBLinear(512, 128, bias=True, priors=self.priors)
         self.act8 = self.act()
-        self.fc4 = BBBLinear(64, 32, bias=True, priors=self.priors)
+        self.fc4 = BBBLinear(128, 64, bias=True, priors=self.priors)
         self.act8 = self.act()
         
         self.fc5 = BBBLinear(32, outputs, bias=True, priors=self.priors)
