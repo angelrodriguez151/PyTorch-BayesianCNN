@@ -194,6 +194,7 @@ def run(dataset, net_type,n_epochs = cfg.n_epochs):
     optimizer = Adam(net.parameters(), lr=lr_start)
     lr_sched = lr_scheduler.ReduceLROnPlateau(optimizer, patience=6, verbose=True)
     valid_loss_max = np.Inf
+    valid_acc_max = 0
     trainaccuracy = []
     valaccuracy  = []
     import time
@@ -210,11 +211,11 @@ def run(dataset, net_type,n_epochs = cfg.n_epochs):
             epoch, train_loss, train_acc, valid_loss, valid_acc, train_kl))
 
         # save model if validation accuracy has increased
-        if valid_loss <= valid_loss_max:
+        if valid_acc_max<=valid_acc: #valid_loss <= valid_loss_max:
              print('Validation loss decreased ({:.6f} --> {:.6f}).  Saving model ...'.format(
                 valid_loss_max, valid_loss))
              torch.save(net.state_dict(), ckpt_name) 
-             valid_loss_max = valid_loss
+             valid_acc_max = valid_acc
     print("Testing best model yet")
     net = getModel(net_type, inputs, outputs, priors, layer_type, activation_type).to(device)
     net.load_state_dict(torch.load(ckpt_name)) 
