@@ -81,17 +81,48 @@ class BBBmymodel1(ModuleWrapper):
         else:
             raise ValueError("Only softplus or relu supported")
 
-        self.conv1 = BBBConv2d(inputs, 24, 3, bias=True, priors=self.priors)
+        # self.conv1 = BBBConv2d(inputs, 24, 3, bias=True, priors=self.priors)
+        # self.act1 = self.act()
+        # self.pool1 = nn.MaxPool2d(6,6)
+        # self.conv2 = BBBConv2d(24, 48, 3, bias=True, priors=self.priors)
+        # self.act2 = self.act()
+        # self.pool2 = nn.MaxPool2d(6,6)
+    
+    
+        # self.flatten = nn.Flatten(1)
+        
+        # self.fc1 = BBBLinear(1920, 1024, bias=True, priors=self.priors)
+        # self.act3 = self.act()
+        
+        # self.fc2 = BBBLinear(1024, outputs, bias=True, priors=self.priors)
+        self.conv1 = BBBConv2d(inputs, 8, 3, bias=True, priors=self.priors)
         self.act1 = self.act()
-        self.pool1 = nn.MaxPool2d(6,6)
-        self.conv2 = BBBConv2d(24, 48, 3, bias=True, priors=self.priors)
+        self.pool1 = nn.MaxPool2d(2,2)
+        self.conv2 = BBBConv2d(8, 16, 3, bias=True, priors=self.priors)
         self.act2 = self.act()
-        self.pool2 = nn.MaxPool2d(6,6)
+        self.pool2 = nn.MaxPool2d(2,2)
+        
+        self.conv3 = BBBConv2d(16, 32, 3, bias=True, priors=self.priors)
+        self.act3 = self.act()
+        self.pool3 = nn.MaxPool2d(2,2)
+        self.conv4 = BBBConv2d(32, 64, 3, bias=True, priors=self.priors)
+        self.act4 = self.act()
+        self.pool4 = nn.MaxPool2d(2,2)
+        self.conv5 = BBBConv2d(64, 128, 3, bias=True, priors=self.priors)
+        self.act5 = self.act()
+        self.pool5 = nn.MaxPool2d(2,2)
+
     
     
         self.flatten = nn.Flatten(1)
         
-        self.fc1 = BBBLinear(1920, 1024, bias=True, priors=self.priors)
-        self.act3 = self.act()
+        self.fc1 = BBBLinear(1920, 256, bias=True, priors=self.priors)
+        self.act6 = self.act()
+        self.fc2 = BBBLinear(256, 128, bias=True, priors=self.priors)
+        self.act7 = self.act()
+        self.fc3 = BBBLinear(128, 64, bias=True, priors=self.priors)
+        self.act8 = self.act()
+        self.fc4 = BBBLinear(64, 32, bias=True, priors=self.priors)
+        self.act8 = self.act()
         
-        self.fc2 = BBBLinear(1024, outputs, bias=True, priors=self.priors)
+        self.fc5 = BBBLinear(32, outputs, bias=True, priors=self.priors)
