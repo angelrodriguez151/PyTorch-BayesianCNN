@@ -98,8 +98,7 @@ def testing(net, testloader):
     f1=(metrics.F1(ou, la))    
     spec = (metrics.specificity(ou, la))
     sens = (metrics.sensibility(ou, la))
-    auc = ( metrics.rocauc(ou, la))
-    return  np.mean(accs),precision,recall,f1 , auc, spec, sens
+    return  np.mean(accs),precision,recall,f1 ,spec, sens
     
 
 def run(dataset, net_type, n_epochs=cfg.n_epochs):
@@ -148,8 +147,8 @@ def run(dataset, net_type, n_epochs=cfg.n_epochs):
             torch.save(net.state_dict(), ckpt_name)
             valid_loss_min = valid_loss
     t2=time.time()-t1
-    accs,precision,recall,f1, auc, spec, sens = testing(net, test_loader)
-    return (t2, accs,precision,recall,f1, auc, spec, sens), trainaccuracy, valaccuracy
+    accs,precision,recall,f1, spec, sens = testing(net, test_loader)
+    return (t2, accs,precision,recall,f1, spec, sens), trainaccuracy, valaccuracy
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description = "PyTorch Frequentist Model Training")
