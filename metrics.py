@@ -29,18 +29,18 @@ def precision(outputs, targets):
         return 0
     else:
         return  np.sum((outputs[:,1]>0.5) * (targets==1))/sum(outputs[:,1]>0.5)
-def recall(outputs, targets):
-    if np.sum(outputs[:,1]<=0.5)==0:
-        return 0
-    return  np.sum((outputs[:,1]<=0.5) * (targets==0))/sum(outputs[:,1]<=0.5)
+#def recall(outputs, targets):
+#    if np.sum(outputs[:,1]<=0.5)==0:
+##        return 0
+#    return  np.sum((outputs[:,1]<=0.5) * (targets==0))/sum(outputs[:,1]<=0.5)
 
-def F1(outputs, targets):
-    p = precision(outputs, targets)
-    r= recall(outputs, targets)
-    if p!=0 and r!=0:
-        return 2/(1/p+1/r)
-    else:
-        return 0
+#def F1(outputs, targets):
+#    p = precision(outputs, targets)
+#    r= recall(outputs, targets)
+#    if p!=0 and r!=0:
+#        return 2/(1/p+1/r)
+#    else:
+#        return 0
 def sensibility(outputs, targets):
     if np.sum(targets)!=0:
         return np.sum((outputs[:,1]>0.5) * (targets==1))/np.sum(targets)
