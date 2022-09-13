@@ -116,8 +116,7 @@ def testing(net,  testloader, num_ens=1, beta_type=0.1, epoch=None, num_epochs=N
         la = np.concatenate([la, labels.cpu().numpy()])
         
     precision=(metrics.precision(ou, la))
-    recall=(metrics.recall(ou, la))
-    f1=(metrics.F1(ou, la))
+
     spec = (metrics.specificity(ou, la))
     sens = (metrics.sensibility(ou, la))
 
