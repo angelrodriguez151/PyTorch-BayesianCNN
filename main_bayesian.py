@@ -195,6 +195,7 @@ def run(dataset, net_type,n_epochs = cfg.n_epochs):
     valid_acc_max = 0
     trainaccuracy = []
     valaccuracy  = []
+    valloss=[]
     import time
     t1=time.time()
     print("starting to train")
@@ -205,6 +206,7 @@ def run(dataset, net_type,n_epochs = cfg.n_epochs):
         lr_sched.step(valid_loss)
         trainaccuracy.append(train_acc)
         valaccuracy.append(valid_acc)
+        valloss.append(valid_loss)
         print('Epoch: {} \tTraining Loss: {:.4f} \tTraining Accuracy: {:.4f} \tValidation Loss: {:.4f} \tValidation Accuracy: {:.4f} \ttrain_kl_div: {:.4f}'.format(
             epoch, train_loss, train_acc, valid_loss, valid_acc, train_kl))
 
@@ -220,7 +222,7 @@ def run(dataset, net_type,n_epochs = cfg.n_epochs):
     net.eval()
     accs,precision,spec, sens = testing(net, test_loader)
     t2= time.time()-t1       
-    return (t2, accs,precision, spec, sens), trainaccuracy, valaccuracy
+    return (t2, accs,precision, spec, sens), trainaccuracy, valaccuracy, valloss
 
 
 

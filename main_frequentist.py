@@ -123,6 +123,7 @@ def run(dataset, net_type, n_epochs=cfg.n_epochs):
     valid_loss_min = np.Inf
     trainaccuracy = []
     valaccuracy  = []
+    valloss=[]
     import time
     t1=time.time()
     for epoch in range(1, n_epochs+1):
@@ -135,6 +136,7 @@ def run(dataset, net_type, n_epochs=cfg.n_epochs):
         valid_loss = valid_loss/len(valid_loader.dataset)
         trainaccuracy.append(train_acc)
         valaccuracy.append(valid_acc)
+        valloss.append(valid_loss)
         print('Epoch: {} \tTraining Loss: {:.4f} \tTraining Accuracy: {:.4f} \tValidation Loss: {:.4f} \tValidation Accuracy: {:.4f}'.format(
             epoch, train_loss, train_acc, valid_loss, valid_acc))
         
@@ -146,7 +148,7 @@ def run(dataset, net_type, n_epochs=cfg.n_epochs):
             valid_loss_min = valid_loss
     t2=time.time()-t1
     accs,precision, spec, sens = testing(net, test_loader)
-    return (t2, accs,precision,spec, sens), trainaccuracy, valaccuracy
+    return (t2, accs,precision,spec, sens), trainaccuracy, valaccuracy, valloss
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description = "PyTorch Frequentist Model Training")
