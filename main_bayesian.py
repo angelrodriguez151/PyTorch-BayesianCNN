@@ -14,6 +14,7 @@ import metrics
 import config_bayesian as cfg
 from models.BayesianModels.Bayesianmymodel import BBBmymodel
 from models.BayesianModels.Bayesianmymodel import BBBmymodel1
+from models.BayesianModels.Bayesianmymodel import BBBmymodel1Layer
 from models.BayesianModels.BayesianAlexNet import BBBAlexNet
 from models.BayesianModels.BayesianLeNet import BBBLeNet
 from models.BayesianModels.Bayesian1DConv import BBBConv1
@@ -35,6 +36,8 @@ def getModel(net_type, inputs, outputs, priors, layer_type, activation_type):
         return BBBConv1(outputs, inputs, priors, layer_type, activation_type)
     elif (net_type == 'features'):
         return BBBLinear2(outputs, inputs, priors, layer_type, activation_type)
+    elif (net_type == '1layer'):
+        return BBBmymodel1Layer(outputs, inputs, priors, layer_type, activation_type)
     else:
         raise ValueError('Network should be either [LeNet / AlexNet / 3Conv3FC')
 
@@ -229,4 +232,4 @@ def run(dataset, net_type,n_epochs = cfg.n_epochs):
 
 if __name__ == '__main__':
 
-    run("vozparkinson1","conv1")
+    run("miset","1layer")
