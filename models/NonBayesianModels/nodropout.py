@@ -81,3 +81,32 @@ class nodropout1(nn.Module):
         x = self.features(x)
         x = self.classifier(x)
         return x
+
+class nodropout1layer(nn.Module):
+    """
+    To train on CIFAR-10:
+    https://arxiv.org/pdf/1207.0580.pdf
+    """
+    def __init__(self, outputs, inputs):
+        super(nodropout1layer, self).__init__()
+        self.features = nn.Sequential(
+            
+            nn.Conv2d(inputs, 4, 4),
+            nn.Softplus(),
+            nn.MaxPool2d(4,4),
+            
+
+            
+            
+        )
+        self.classifier = nn.Sequential(
+            nn.Flatten(1),
+   
+            nn.Linear(900, outputs),
+    
+        )
+
+    def forward(self, x):
+        x = self.features(x)
+        x = self.classifier(x)
+        return x

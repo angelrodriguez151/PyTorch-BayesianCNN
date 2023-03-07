@@ -16,10 +16,10 @@ from models.NonBayesianModels.AlexNet import AlexNet
 from models.NonBayesianModels.LeNet import LeNet
 from models.NonBayesianModels.dropout import dropout
 from models.NonBayesianModels.dropout import dropout1
-
+from models.NonBayesianModels.dropout import dropout1layer
 from models.NonBayesianModels.nodropout import nodropout
 from models.NonBayesianModels.nodropout import nodropout1
-
+from models.NonBayesianModels.nodropout import nodropout1layer
 from models.NonBayesianModels.dropout1d import dropout1d
 from models.NonBayesianModels.nodropout1d import nodropout1d
 
@@ -44,6 +44,10 @@ def getModel(net_type, inputs, outputs):
     elif (net_type == 'dropout1d'):
         return dropout1d(outputs, inputs)
     elif (net_type == 'nodropout1d'):
+        return  nodropout1d(outputs, inputs)
+    elif (net_type == 'dropout1layer'):
+        return dropout1d(outputs, inputs)
+    elif (net_type == 'nodropout1layer'):
         return  nodropout1d(outputs, inputs)
     else:
         raise ValueError('Network should be either [LeNet / AlexNet / 3Conv3FC')
