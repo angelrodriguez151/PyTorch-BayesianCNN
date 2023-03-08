@@ -179,6 +179,6 @@ class BBBmymodel1Layer(ModuleWrapper):
     
         self.flatten = nn.Flatten(1)
         
-        self.fc1 = BBBLinear(900, outputs, bias=True, priors=self.priors)
+        self.fc1 = BBBLinear(243, outputs, bias=True, priors=self.priors)
 
         

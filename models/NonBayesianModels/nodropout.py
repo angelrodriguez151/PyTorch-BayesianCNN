@@ -102,7 +102,7 @@ class nodropout1layer(nn.Module):
         self.classifier = nn.Sequential(
             nn.Flatten(1),
    
-            nn.Linear(900, outputs),
+            nn.Linear(243, outputs),
     
         )
 
