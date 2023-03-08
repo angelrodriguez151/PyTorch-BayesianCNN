@@ -171,9 +171,9 @@ class BBBmymodel1Layer(ModuleWrapper):
         # self.act3 = self.act()
         
         # self.fc2 = BBBLinear(1024, outputs, bias=True, priors=self.priors)
-        self.conv1 = BBBConv2d(inputs, 4, 4, bias=True, priors=self.priors)
+        self.conv1 = BBBConv2d(inputs, 3, 6, bias=True, priors=self.priors)
         self.act1 = self.act()
-        self.pool1 = nn.MaxPool2d(4,4)
+        self.pool1 = nn.MaxPool2d(6,6)
         
     
     

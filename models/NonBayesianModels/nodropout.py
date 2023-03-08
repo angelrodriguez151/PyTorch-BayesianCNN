@@ -91,9 +91,9 @@ class nodropout1layer(nn.Module):
         super(nodropout1layer, self).__init__()
         self.features = nn.Sequential(
             
-            nn.Conv2d(inputs, 4, 4),
+            nn.Conv2d(inputs, 3, 6),
             nn.Softplus(),
-            nn.MaxPool2d(4,4),
+            nn.MaxPool2d(6,6),
             
 
             
